@@ -19,8 +19,15 @@ angular.module('app.controllers', [])
       $http.get("http://eggnogg:8000/uploads")
         .success(function(data) {
           alert("We have hit the route");
-          vm.data = data;
-          alert(vm.data);
+          // vm.data = data;
+          let name = '';
+          let username = '';
+
+          for (let bit of data) {
+            name = bit.name;
+            username = bit.username;
+          }
+          alert("name " + name + " *** " + "username " + username);
         })
         .error(function(data) {
           alert("error");
