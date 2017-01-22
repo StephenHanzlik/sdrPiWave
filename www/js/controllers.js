@@ -14,10 +14,13 @@ angular.module('app.controllers', [])
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
     function($scope, $stateParams, $http) {
       alert("hello from controller");
+      const vm = this;
 
-      $http.get("http://eggnogg:8000")
+      $http.get("http://eggnogg:8000/uploads")
         .success(function(data) {
           alert("We have hit the route");
+          vm.data = data;
+          alert(vm.data);
         })
         .error(function(data) {
           alert("error");
