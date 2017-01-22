@@ -16,14 +16,22 @@ angular.module('app.controllers', [])
       alert("hello from controller");
       const vm = this;
 
+      vm.test = [{
+        name: "dink",
+        username: "dionkey"
+      }, {
+        name: "joe",
+        username: "tim"
+      }]
+
       $http.get("http://eggnogg:8000/uploads")
-        .success(function(data) {
+        .success(function(response) {
           alert("We have hit the route");
-          // vm.data = data;
+          vm.posts = response.data;
           let name = '';
           let username = '';
 
-          for (let bit of data) {
+          for (let bit of response) {
             name = bit.name;
             username = bit.username;
           }
