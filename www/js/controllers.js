@@ -59,34 +59,20 @@ angular.module('app.controllers', ['ionic'])
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
     function($scope, $stateParams, $http) {
       const vm = this;
+      vm.login = login;
 
-      alert("controller function");
-      vm.clickedOn = clickedOn;
+      function login() {
 
-      function clickedOn() {
-        alert("I was clickedOn");
-      }
-
-      function login(loginForm) {
-        alert("login function");
-        alert(loginForm);
-        alert(vm.loginForm);
-        // $event.preventDefault();
-
-        let password = vm.password;
-        let email = vm.email;
-        alert(vm.password + " " + vm.email)
-
-        //
-        // $http.post("http://eggnogg:8000/token/")
-        //   .success(function(response) {
-        //     alert("We have success");
-        //     vm.data = response;
-        //     alert(vm.data)
-        //   })
-        //   .error(function(data) {
-        //     alert("error");
-        //   });
+        $http.post("http://eggnogg:8000/token/", vm.loginForm)
+          .success(function(response) {
+            alert("We have success");
+            vm.data = response;
+            alert(vm.data)
+          })
+          .error(function(response) {
+            alert(response)
+            alert("error");
+          });
       }
 
     }
