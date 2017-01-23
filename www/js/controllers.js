@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.controllers', [])
+angular.module('app.controllers', ['ionic'])
 
   .controller('menuCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
@@ -14,12 +14,14 @@ angular.module('app.controllers', [])
   .controller('homeCtrl', ['$scope', '$stateParams', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
+
     function($scope, $stateParams, $http) {
       alert("hello from controller");
       const vm = this;
 
       vm.data = {
-        'query' : 'dinky'
+        'query' : 'dinky',
+        'gggg': 'fasd'
       };
       console.log($scope.data);
 
@@ -40,6 +42,23 @@ angular.module('app.controllers', [])
       //     alert("error");
       //   })
     }
+
+    // $http.get("http://eggnogg:8000/uploads")
+    //   .success(function(response) {
+    //     alert("We have hit the route");
+    //     vm.posts = response.data;
+    //     let name = '';
+    //     let username = '';
+    //
+    //     for (let bit of response) {
+    //       name = bit.name;
+    //       username = bit.username;
+    //     }
+    //     alert("name " + name + " *** " + "username " + username);
+    //   })
+    //   .error(function(data) {
+    //     alert("error");
+    //   })
   ])
 
   .controller('searchCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
