@@ -23,54 +23,89 @@ angular.module('app.controllers', ['ionic'])
 
         $http.get("http://eggnogg:8000/uploads/")
           .success(function (uploads) {
-            let type;
-            for (let post in uploads) {
-              let filename = post.path;
-              type = filename.substring(filename.length - 4).toLowerCase();
-              switch (type) {
-              case ('.mov'):
-              case ('.mp4'):
-              case ('.avi'):
-                {
-                  post.icon = "film-outline";
-                  break;
-                }
-              case ('.jpg'):
-              case ('jpeg'):
-              case ('.gif'):
-              case ('.png'):
-              case ('.psd'):
-              case ('.tif'):
-              case ('.bmp'):
-                {
-                  post.icon = "image-outline";
-                  break;
-                }
-              case ('.txt'):
-              case ('.doc'):
-              case ('docx'):
-              case ('.htm'):
-              case ('html'):
-              case ('.pdf'):
-              case ('.rtf'):
-              case ('.xls'):
-              case ('xlsx'):
-                {
-                  post.icon = "document-outline";
-                  break;
-                }
-              default:
-                {
-                  post.icon = "nuclear-outline";
-                  break;
-                }
-              }
-            }
             vm.data = uploads;
-          })
-          .error(function (data) {
-            alert(`error:${data}`);
-          });
+        let type, filename;
+        //TEST DATA FOR OFFLINE USE//
+        // vm.data = {
+        //   test1: {
+        //     path: "/file/new.mp3",
+        //     name: "new.mp3",
+        //     username: "TESTUSER"
+        //   },
+        //   test2: {
+        //     path: "/file/other.mp4",
+        //     name: "other.mp4",
+        //     username: "TESTUSER2"
+        //   },
+        //   test3: {
+        //     path: "/file/test.docx",
+        //     name: "test.docx",
+        //     username: "TESTUSER3"
+        //   },
+        //   test4: {
+        //     path: "/file/newthing.tif",
+        //     name: "newthing.tif",
+        //     username: "TESTUSER4"
+        //   }
+        // };
+        for (let key in vm.data) {
+          let post = vm.data[key];
+          filename = post.path;
+          type = filename.substring(filename.length - 4).toLowerCase();
+          switch (type) {
+          case ('.mp3'):
+          case ('.ogg'):
+          case ('.wav'):
+          case ('.aac'):
+          case ('.wma'):
+            {
+              post.icon = "ion-music-note";
+              break;
+            }
+          case ('.mov'):
+          case ('.wmv'):
+          case ('.mp4'):
+          case ('.avi'):
+            {
+              post.icon = "ion-ios-film-outline";
+              break;
+            }
+          case ('.jpg'):
+          case ('jpeg'):
+          case ('.gif'):
+          case ('.png'):
+          case ('.psd'):
+          case ('.tif'):
+          case ('.bmp'):
+            {
+              post.icon = "ion-image";
+              break;
+            }
+          case ('.txt'):
+          case ('.doc'):
+          case ('docx'):
+          case ('.htm'):
+          case ('html'):
+          case ('.pdf'):
+          case ('.rtf'):
+          case ('.xls'):
+          case ('xlsx'):
+          case ('.ttf'):
+            {
+              post.icon = "ion-document";
+              break;
+            }
+          default:
+            {
+              post.icon = "ion-nuclear";
+              break;
+            }
+          }
+        }
+        })
+        .error(function (data) {
+          alert(`error: ${data}`);
+        });
       }
     }
   ])
