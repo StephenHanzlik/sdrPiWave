@@ -65,6 +65,7 @@ angular.module('app.services', [])
         case ('.wma'):
           {
             post.icon = "ion-music-note";
+            post.type="audio";
             break;
           }
         case ('.mov'):
@@ -73,6 +74,7 @@ angular.module('app.services', [])
         case ('.avi'):
           {
             post.icon = "ion-ios-film-outline";
+            post.type="video";
             break;
           }
         case ('.jpg'):
@@ -84,6 +86,7 @@ angular.module('app.services', [])
         case ('.bmp'):
           {
             post.icon = "ion-image";
+            post.type="image";
             break;
           }
         case ('.txt'):
@@ -98,11 +101,13 @@ angular.module('app.services', [])
         case ('.ttf'):
           {
             post.icon = "ion-document";
+            post.type="text";
             break;
           }
         default:
           {
             post.icon = "ion-nuclear";
+            post.type="misc";
             break;
           }
         }
