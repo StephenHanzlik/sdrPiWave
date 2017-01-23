@@ -66,7 +66,6 @@ angular.module('app.controllers', ['ionic'])
           .success(function(response) {
             alert("success post to http://eggnogg:8000/token/");
             vm.data = response;
-            alert(vm.data)
           })
           .error(function(response) {
             alert(response)
@@ -100,7 +99,6 @@ angular.module('app.controllers', ['ionic'])
           .success(function(response) {
             alert("Success post to http://eggnogg:8000/token/");
             vm.data = response;
-            alert(vm.data)
           })
           .error(function(response) {
             alert(response)
