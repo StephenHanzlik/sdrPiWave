@@ -1,18 +1,19 @@
-<ion-view title="Login" id="page5">
+<ion-view title="Login" id="page5" ng-controller="loginCtrl as $ctrl">
   <ion-content padding="true" class="has-header">
-    <form id="login-form1" class="list">
+    <form id="login-form1" class="list" name="loginForm" novalidate>
       <ion-list id="login-list1">
         <label class="item item-input" id="login-input1">
-          <span class="input-label">Username</span>
-          <input type="text" placeholder="">
+          <span class="input-label">Email</span>
+          <input type="text" placeholder="" name="email" ng-model="$ctrl.loginForm.email">
         </label>
         <label class="item item-input" id="login-input2">
           <span class="input-label">Password</span>
-          <input type="password" placeholder="">
+          <input type="password" placeholder="" ng-model="$ctrl.loginForm.password" name="password">
         </label>
       </ion-list>
       <div class="spacer" style="height: 40px;"></div>
-      <a ui-sref="tabsController.home" id="login-button2" class="button button-stable  button-block">Log in</a>
+      <a ng-click="$ctrl.login()" ui-sref="tabsController.home" id="login-button2" class="button button-stable  button-block">Log in</a>
+      <!-- ui-sref="tabsController.home" -->
       <a ui-sref="signup" id="login-button3" class="button button-positive  button-block button-clear">Or create an account</a>
     </form>
   </ion-content>
