@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.controllers', [])
+angular.module('app.controllers', ['ionic'])
 
   .controller('menuCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
@@ -20,7 +20,8 @@ angular.module('app.controllers', [])
       const vm = this;
 
       $scope.data = {
-        'query': 'dinky'
+        'query': 'dinky',
+        'gggg': 'fasd'
       };
       console.log($scope.data);
 
