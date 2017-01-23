@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('app.controllers', [])
 
   .controller('menuCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
@@ -16,7 +18,8 @@ angular.module('app.controllers', [])
       alert("hello from controller");
       const vm = this;
 
-      vm.test = "dinky";
+      vm.items = ["dinky", "jinky", "slinky"];
+      console.log(vm.items);
 
       // $http.get("http://eggnogg:8000/uploads")
       //   .success(function(response) {
