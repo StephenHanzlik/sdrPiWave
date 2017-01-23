@@ -24,33 +24,16 @@ angular.module('app.controllers', ['ionic'])
 
         $http.get("http://eggnogg:8000/uploads/")
           .success(function(response) {
-            alert("We have succes");
+            alert("We have success");
             vm.data = response;
-            alert(vm.data)
+            console.log(response);
           })
           .error(function(data) {
-            alert("error");
+            alert(`error:${data}`);
           });
       }
     }
   ])
-
-  // $http.get("http://eggnogg:8000/uploads")
-  //   .success(function(response) {
-  //     alert("We have hit the route");
-  //     vm.posts = response.data;
-  //     let name = '';
-  //     let username = '';
-  //
-  //     for (let bit of response) {
-  //       name = bit.name;
-  //       username = bit.username;
-  //     }
-  //     alert("name " + name + " *** " + "username " + username);
-  //   })
-  //   .error(function(data) {
-  //     alert("error");
-  //   })
 
   .controller('searchCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
