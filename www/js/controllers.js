@@ -24,12 +24,11 @@ angular.module('app.controllers', ['ionic'])
 
         $http.get("http://eggnogg:8000/uploads/")
           .success(function(response) {
-            alert("We have success");
+            alert("sucess get to http://eggnogg:8000/uploads/")
             vm.data = response;
-            alert(vm.data)
           })
           .error(function(data) {
-            alert("error");
+            alert("error get to http://eggnogg:8000/uploads/");
           });
       }
     }
@@ -65,13 +64,13 @@ angular.module('app.controllers', ['ionic'])
 
         $http.post("http://eggnogg:8000/token/", vm.loginForm)
           .success(function(response) {
-            alert("We have success");
+            alert("success post to http://eggnogg:8000/token/");
             vm.data = response;
             alert(vm.data)
           })
           .error(function(response) {
             alert(response)
-            alert("error");
+            alert("error post to http://eggnogg:8000/token/");
           });
       }
 
@@ -87,11 +86,27 @@ angular.module('app.controllers', ['ionic'])
     }
   ])
 
-  .controller('signupCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+  .controller('signupCtrl', ['$scope', '$stateParams', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function($scope, $stateParams) {
+    function($scope, $stateParams, $http) {
 
+      const vm = this;
+      vm.signup = signup;
+
+      function signup() {
+
+        $http.post("http://eggnogg:8000/users/", vm.signupForm)
+          .success(function(response) {
+            alert("Success post to http://eggnogg:8000/token/");
+            vm.data = response;
+            alert(vm.data)
+          })
+          .error(function(response) {
+            alert(response)
+            alert("error post to http://eggnogg:8000/token/");
+          });
+      }
 
     }
   ])
