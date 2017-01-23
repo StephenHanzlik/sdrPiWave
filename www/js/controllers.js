@@ -35,22 +35,6 @@ angular.module('app.controllers', ['ionic'])
     }
   ])
 
-  // $http.get("http://eggnogg:8000/uploads")
-  //   .success(function(response) {
-  //     alert("We have hit the route");
-  //     vm.posts = response.data;
-  //     let name = '';
-  //     let username = '';
-  //
-  //     for (let bit of response) {
-  //       name = bit.name;
-  //       username = bit.username;
-  //     }
-  //     alert("name " + name + " *** " + "username " + username);
-  //   })
-  //   .error(function(data) {
-  //     alert("error");
-  //   })
 
   .controller('searchCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
@@ -70,11 +54,40 @@ angular.module('app.controllers', ['ionic'])
     }
   ])
 
-  .controller('loginCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+  .controller('loginCtrl', ['$scope', '$stateParams', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function($scope, $stateParams) {
+    function($scope, $stateParams, $http) {
+      const vm = this;
 
+      alert("controller function");
+      vm.clickedOn = clickedOn;
+
+      function clickedOn() {
+        alert("I was clickedOn");
+      }
+
+      function login(loginForm) {
+        alert("login function");
+        alert(loginForm);
+        alert(vm.loginForm);
+        // $event.preventDefault();
+
+        let password = vm.password;
+        let email = vm.email;
+        alert(vm.password + " " + vm.email)
+
+        //
+        // $http.post("http://eggnogg:8000/token/")
+        //   .success(function(response) {
+        //     alert("We have success");
+        //     vm.data = response;
+        //     alert(vm.data)
+        //   })
+        //   .error(function(data) {
+        //     alert("error");
+        //   });
+      }
 
     }
   ])
