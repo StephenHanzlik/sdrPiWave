@@ -16,30 +16,24 @@ angular.module('app.controllers', [])
       alert("hello from controller");
       const vm = this;
 
-      vm.test = [{
-        name: "dink",
-        username: "dionkey"
-      }, {
-        name: "joe",
-        username: "tim"
-      }]
+      vm.test = "dinky";
 
-      $http.get("http://eggnogg:8000/uploads")
-        .success(function(response) {
-          alert("We have hit the route");
-          vm.posts = response.data;
-          let name = '';
-          let username = '';
-
-          for (let bit of response) {
-            name = bit.name;
-            username = bit.username;
-          }
-          alert("name " + name + " *** " + "username " + username);
-        })
-        .error(function(data) {
-          alert("error");
-        })
+      // $http.get("http://eggnogg:8000/uploads")
+      //   .success(function(response) {
+      //     alert("We have hit the route");
+      //     vm.posts = response.data;
+      //     let name = '';
+      //     let username = '';
+      //
+      //     for (let bit of response) {
+      //       name = bit.name;
+      //       username = bit.username;
+      //     }
+      //     alert("name " + name + " *** " + "username " + username);
+      //   })
+      //   .error(function(data) {
+      //     alert("error");
+      //   })
     }
   ])
 
