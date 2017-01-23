@@ -1,9 +1,9 @@
 <ion-view title="Home" id="page2" ng-controller="homeCtrl as $ctrl">
-  <ion-content padding="true" class="has-header">
+  <ion-content padding="true" class="has-header" >
     <ion-list>
-      <ion-item >
+      <ion-item ng-repeat="val in $ctrl.data" >
         <p>
-         {{$ctrl.data}}
+         {{val}}
        </p>
       </ion-item>
     </ion-list>
