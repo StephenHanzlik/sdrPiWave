@@ -1,10 +1,14 @@
 <ion-view title="Home" id="page2" ng-controller="homeCtrl">
   <ion-content padding="true" class="has-header">
-    <ion-list>
-      <ion-item ng-repeat="item in items">
-        Hello, {{item}}!
-      </ion-item>
-    </ion-list>
+    <ion-content ng-controller="MyCtrl">
+      <button class="button" ng-click="showDeleteButtons()"></button>
+      <ion-list>
+        <ion-item ng-repeat="i in items">
+          Hello, {{i}}!
+          <ion-delete-button class="ion-minus-circled"></ion-delete-button>
+        </ion-item>
+      </ion-list>
+    </ion-content>
     <!-- <ion-list id="home-list4">
       <ion-item class="item-thumbnail-left item-icon-right" id="home-list-item2">
         <h2>jim</h2>
