@@ -11,6 +11,8 @@ angular.module('app.services', [])
 
   .service('filesService', ['$http', function ($http) {
 
+    // once getFiles has been called, access the files object via filesService.files //
+
     this.getFiles = getFiles;
     this.parseIcons = parseIcons;
 
