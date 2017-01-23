@@ -24,7 +24,7 @@ angular.module('app.controllers', ['ionic'])
 
         $http.get("http://eggnogg:8000/uploads/")
           .success(function(response) {
-            alert("We have succes");
+            alert("We have success");
             vm.data = response;
             alert(vm.data)
           })
