@@ -18,7 +18,7 @@ angular.module('app.controllers', [])
       alert("hello from controller");
       const vm = this;
 
-      $scope.data = {
+      vm.data = {
         'query' : 'dinky'
       };
       console.log($scope.data);
