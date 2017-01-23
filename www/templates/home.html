@@ -1,8 +1,10 @@
 <ion-view title="Home" id="page2" ng-controller="homeCtrl">
   <ion-content padding="true" class="has-header">
     <ion-list>
-      <ion-item ng-repeat="item in items">
-        Hello, {{item}}!
+      <ion-item >
+        <p>
+         {{$scope.data}}
+       </p>
       </ion-item>
     </ion-list>
     <!-- <ion-list id="home-list4">

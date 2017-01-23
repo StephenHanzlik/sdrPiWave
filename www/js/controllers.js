@@ -18,8 +18,10 @@ angular.module('app.controllers', [])
       alert("hello from controller");
       const vm = this;
 
-      vm.items = ["dinky", "jinky", "slinky"];
-      console.log(vm.items);
+      $scope.data = {
+        'query' : 'dinky'
+      };
+      console.log($scope.data);
 
       // $http.get("http://eggnogg:8000/uploads")
       //   .success(function(response) {
