@@ -13,14 +13,16 @@ angular.module('app.services', [])
 
     // once getFiles has been called, access the files object via filesService.files //
 
+    let service = this;
+
     this.getFiles = getFiles;
     this.parseIcons = parseIcons;
 
     function getFiles() {
       return $http.get("http://eggnogg:8000/uploads/")
         .success(function(uploads) {
-          this.files = parseIcons(uploads);
-          return this.files;
+          service.files = parseIcons(uploads);
+          return service.files;
         })
         .error(function(data) {
           alert(`error: ${data}`);
