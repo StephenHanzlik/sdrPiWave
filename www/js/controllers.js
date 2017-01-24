@@ -31,11 +31,12 @@ angular.module('app.controllers', ['ionic'])
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
     function($scope, $stateParams, filesService) {
       const vm = this;
-      vm.search = search;
+      vm.$onInit = search;
 
       function search() {
-        alert(filesService.service.files);
-        return filesService.service.files;
+        alert(filesService.files);
+        vm.data = filesService.files;
+        // return filesService.service.files;
       }
     }
   ])
@@ -60,25 +61,16 @@ angular.module('app.controllers', ['ionic'])
     }
   ])
 
-  .controller('loginCtrl', ['$scope', '$stateParams', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+  .controller('loginCtrl', ['$scope', '$stateParams', '$http', '$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function($scope, $stateParams, $http) {
+    function($scope, $stateParams, $http, $state) {
       const vm = this;
       vm.login = login;
 
       function login() {
-        alert("loginForm " + vm.loginForm);
-        alert("loginForm.email " + vm.loginForm.email);
 
-        if (!vm.loginForm) {
-          window.plugins.toast.showWithOptions({
-            message: "Please enter a password or email",
-            duration: "long",
-            position: "bottom",
-            addPixelsY: -40
-          });
-        } else if (!vm.loginForm.email) {
+        if (!vm.loginForm.email) {
           window.plugins.toast.showWithOptions({
             message: "Please enter an email",
             duration: "long",
@@ -92,19 +84,19 @@ angular.module('app.controllers', ['ionic'])
             position: "center",
             addPixelsY: -40
           });
+        } else {
+          $http.post("http://eggnogg:8000/token/", vm.loginForm)
+            .success(function(response) {
+              alert("success post to http://eggnogg:8000/token/");
+              vm.data = response;
+              $state.go('tabsController.home');
+            })
+            .error(function(response) {
+              alert("error post to http://eggnogg:8000/token/");
+            });
         }
 
-        $http.post("http://eggnogg:8000/token/", vm.loginForm)
-          .success(function(response) {
-            alert("success post to http://eggnogg:8000/token/");
-            vm.data = response;
-          })
-          .error(function(response) {
-            alert(response)
-            alert("error post to http://eggnogg:8000/token/");
-          });
       }
-
     }
   ])
 
