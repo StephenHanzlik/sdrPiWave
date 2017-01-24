@@ -17,6 +17,8 @@ angular.module('app.controllers', ['ionic'])
     function ($scope, $stateParams, filesService) {
       const vm = this;
       vm.$onInit = onInit;
+      vm.streamMedia = streamMedia;
+      vm.downloadMedia = downloadMedia;
 
       function onInit() {
         filesService.getFiles()
@@ -24,6 +26,15 @@ angular.module('app.controllers', ['ionic'])
             vm.data = res.data;
           });
       }
+      function streamMedia(post){
+        alert("streaming some media"+ post.path)
+      }
+      function downloadMedia(post){
+        alert("downloading some media " + post.category)
+      }
+
+
+
     }
   ])
   .controller('searchCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
