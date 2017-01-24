@@ -5,7 +5,7 @@ angular.module('app.controllers', ['ionic'])
   .controller('menuCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function ($scope, $stateParams) {
+    function($scope, $stateParams) {
 
     }
   ])
@@ -14,7 +14,7 @@ angular.module('app.controllers', ['ionic'])
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
 
-    function ($scope, $stateParams, filesService) {
+    function($scope, $stateParams, filesService) {
       const vm = this;
       vm.$onInit = onInit;
 
@@ -29,11 +29,11 @@ angular.module('app.controllers', ['ionic'])
   .controller('searchCtrl', ['$scope', '$stateParams', 'filesService', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function ($scope, $stateParams, filesService) {
+    function($scope, $stateParams, filesService) {
       const vm = this;
       vm.search = search;
 
-      function search(){
+      function search() {
         alert(filesService.service.files);
         return filesService.service.files;
       }
@@ -43,7 +43,7 @@ angular.module('app.controllers', ['ionic'])
   .controller('profileCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function ($scope, $stateParams) {
+    function($scope, $stateParams) {
 
     }
   ])
@@ -56,6 +56,31 @@ angular.module('app.controllers', ['ionic'])
       vm.login = login;
 
       function login() {
+        alert("loginForm " + vm.loginForm);
+        alert("loginForm.email " + vm.loginForm.email);
+
+        if (!vm.loginForm) {
+          window.plugins.toast.showWithOptions({
+            message: "Please enter a password or email",
+            duration: "long",
+            position: "bottom",
+            addPixelsY: -40
+          });
+        } else if (!vm.loginForm.email) {
+          window.plugins.toast.showWithOptions({
+            message: "Please enter an email",
+            duration: "long",
+            position: "center",
+            addPixelsY: -40
+          });
+        } else if (!vm.loginForm.password) {
+          window.plugins.toast.showWithOptions({
+            message: "Please enter an password",
+            duration: "long",
+            position: "center",
+            addPixelsY: -40
+          });
+        }
 
         $http.post("http://eggnogg:8000/token/", vm.loginForm)
           .success(function(response) {
@@ -74,7 +99,7 @@ angular.module('app.controllers', ['ionic'])
   .controller('landingCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function ($scope, $stateParams) {
+    function($scope, $stateParams) {
 
     }
   ])
