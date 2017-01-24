@@ -79,15 +79,15 @@ angular.module('app.controllers', ['ionic'])
           scope: $scope,
           animation: 'slide-in-up'
         }).then(function (modal) {
-          vm.modal = modal;
+          $scope.modal = modal;
         });
         $http.get("http://eggnogg:8000/")
           .then((response) => {
             vm.message = ["Thank you for connecting to ", ""];
-            vm.modal.show();
+            $scope.modal.show();
           }, (error) => {
             vm.message = ["Please ensure your phone is connected to ", " before continuing."];
-            vm.modal.show();
+            $scope.modal.show();
           });
       }
     }
