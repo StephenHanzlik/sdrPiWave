@@ -73,7 +73,6 @@ angular.module('app.controllers', ['ionic'])
       vm.$onInit = onInit;
 
       function onInit() {
-        console.log('initializing landing page');
         $ionicModal.fromTemplateUrl('wifi-modal.html', {
           animation: 'slide-in-up'
         }).then(function (modal) {

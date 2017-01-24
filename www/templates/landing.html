@@ -1,21 +1,23 @@
 <div ng-controller="landingCtrl as $ctrl">
-<ion-view title="Landing" id="page6">
-  <ion-content padding="true" class="has-header">
-    <h1 id="landing-heading1" style="color:#000000;text-align:center;">WELCOME to SDR-Pi</h1>
-    <div class="spacer" style="height: 100px;"></div>
-    <a ui-sref="login" id="landing-button4" class="button button-positive  button-block">Login!</a>
-  </ion-content>
-</ion-view>
-<script id="wifi-modal.html" type="text/ng-template">
-  <ion-modal-view>
-    <ion-header-bar class="bar bar-header bar-balanced">
-          <h1 class="title">Alert</h1>
-          <button class="button button-clear button-primary" ng-click="wifi-modal.hide()">Cancel</button>
-        </ion-header-bar>
-    <ion-content>
-      <h2>Please connect your phone to EGGNOGG wifi before continuing.</h2>
-      <button class="button button-block button-calm" ng-click="wifi-modal.hide()">Dismiss</button>
+  <ion-view title="Landing" id="page6">
+    <ion-content padding="true" class="has-header">
+      <h1 id="landing-heading1" style="color:#000000;text-align:center;">WELCOME to SDR-Pi</h1>
+      <div class="spacer" style="height: 100px;"></div>
+      <a ui-sref="login" id="landing-button4" class="button button-positive  button-block">Login!</a>
     </ion-content>
-  </ion-modal-view>
-</script>
+  </ion-view>
+  <script id="wifi-modal.html" type="text/ng-template">
+    <ion-modal-view>
+      <div class="card">
+        <div class="item item-divider">
+        </div>
+        <div class="item item-text-wrap">
+          <h2 style="text-align:center;">Please ensure your phone is connected to <i class="icon ion-wifi"></i>EGGNOGG<i class="icon ion-wifi"></i> before continuing.</h2>
+          <button class="button button-block button-calm" ng-click="wifi-modal.hide()">Dismiss</button>
+        </div>
+        <div class="item item-divider">
+        </div>
+      </div>
+    </ion-modal-view>
+  </script>
 </div>
