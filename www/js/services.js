@@ -18,38 +18,38 @@ angular.module('app.services', [])
 
     function getFiles() {
       // TEST DATA FOR OFFLINE USE//
-      // this.files = {
-      //   test1: {
-      //     path: "/file/new.mp3",
-      //     name: "new.mp3",
-      //     username: "TESTUSER"
-      //   },
-      //   test2: {
-      //     path: "/file/other.mp4",
-      //     name: "other.mp4",
-      //     username: "TESTUSER2"
-      //   },
-      //   test3: {
-      //     path: "/file/test.docx",
-      //     name: "test.docx",
-      //     username: "TESTUSER3"
-      //   },
-      //   test4: {
-      //     path: "/file/newthing.tif",
-      //     name: "newthing.tif",
-      //     username: "TESTUSER4"
-      //   }
-      // };
-      // return parseIcons(this.files);
-      return $http.get("http://eggnogg:8000/uploads/")
-        .success(function (uploads) {
-          this.files=parseIcons(uploads);
-          return this.files;
-        })
-        .error(function (data) {
-          alert(`error: ${data}`);
-        });
-    }
+      this.files = {
+        test1: {
+          path: "/file/new.mp3",
+          name: "new.mp3",
+          username: "TESTUSER"
+        },
+        test2: {
+          path: "/file/other.mp4",
+          name: "other.mp4",
+          username: "TESTUSER2"
+        },
+        test3: {
+          path: "/file/test.docx",
+          name: "test.docx",
+          username: "TESTUSER3"
+        },
+        test4: {
+          path: "/file/newthing.tif",
+          name: "newthing.tif",
+          username: "TESTUSER4"
+        }
+      };
+      return parseIcons(this.files);
+    //   return $http.get("http://eggnogg:8000/uploads/")
+    //     .success(function (uploads) {
+    //       this.files=parseIcons(uploads);
+    //       return this.files;
+    //     })
+    //     .error(function (data) {
+    //       alert(`error: ${data}`);
+    //     });
+    // }
 
     function parseIcons(files) {
       let type, filename, post;

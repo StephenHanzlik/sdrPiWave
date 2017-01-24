@@ -31,14 +31,11 @@ angular.module('app.controllers', ['ionic'])
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
     function ($scope, $stateParams, filesService) {
       const vm = this;
-      console.log(filesService.files);
       vm.search = search;
 
       function search(){
-        filesService.getFiles()
-          .then((results) => {
-            vm.data = results.data;
-          });
+        alert(filesService.service.files);
+        return filesService.service.files;
       }
     }
   ])
