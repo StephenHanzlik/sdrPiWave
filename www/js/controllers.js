@@ -40,11 +40,23 @@ angular.module('app.controllers', ['ionic'])
     }
   ])
 
-  .controller('profileCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+  .controller('profileCtrl', ['$scope', '$stateParams', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function($scope, $stateParams) {
+    function($scope, $stateParams, $http) {
+      const vm = this;
+      vm.$onInit = onInit;
 
+
+      function onInit() {
+        return $http.get(`http://eggnogg:8000/users/${user.id}`)
+          .success(function(user) {
+            vm.userProfile = user;
+          })
+          .error(function(data) {
+            alert(`error: ${data}`);
+          });
+      }
     }
   ])
 
