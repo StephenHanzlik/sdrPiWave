@@ -1,12 +1,21 @@
-<ion-view title="Search" id="page3">
+<ion-view title="Search" id="page3" ng-controller="searchCtrl as $ctrl">
   <ion-content padding="true" class="has-header">
     <h1 id="search-heading2" style="color:#000000;text-align:center;">Search</h1>
     <form id="search-form5" class="list">
       <label class="item item-input" id="search-input7">
         <span class="input-label">Search</span>
-        <input type="text" placeholder="Input text here...">
+        <input ng-model="seachText" name= "searchtext" type="text" placeholder="Input text here...">
       </label>
-      <button id="search-button6" class="button button-positive  button-block">Search!</button>
+      <button id="search-button6" class="button button-positive  button-block" >Search!</button>
     </form>
+    <ion-list id="home-list4">
+      <ion-item class="item-thumbnail-left item-icon-right" id="home-list-item2" ng-repeat="post in $ctrl.data | filer: searchText">
+        <h2>{{ post.name }}</h2>
+        <p>{{ post.username }}</p>
+        <i class="icon {{ post.icon }}"></i>
+        <ion-option-button class="button-royal">DOWNLOAD</ion-option-button>
+        <ion-option-button class="button-energized">VIEW</ion-option-button>
+      </ion-item>
+    </ion-list>
   </ion-content>
 </ion-view>
