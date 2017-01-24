@@ -12,8 +12,8 @@
         <div class="item item-divider">
         </div>
         <div class="item item-text-wrap">
-          <h2 style="text-align:center;">{{$ctrl.message[0]}}<i class="icon ion-wifi"></i>{{$ctrl.wifiName}}<i class="icon ion-wifi"></i>{{$ctrl.message[1]}}</h2>
-          <button class="button button-block button-calm" ng-click="wifi-modal.hide()">Dismiss</button>
+          <h2 style="text-align:center;">{{$ctrl.message[0]}}<span><i class="icon ion-wifi"></i>{{$ctrl.wifiName}}<i class="icon ion-wifi"></i></span>{{$ctrl.message[1]}}</h2>
+          <button class="button button-block button-calm" ng-click="$ctrl.toggleModal()">{{$ctrl.buttonMessage}}</button>
         </div>
         <div class="item item-divider">
         </div>
