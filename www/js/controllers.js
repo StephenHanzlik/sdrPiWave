@@ -98,11 +98,32 @@ angular.module('app.controllers', ['ionic'])
     }
   ])
 
-  .controller('landingCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+  .controller('landingCtrl', ['$scope', '$stateParams', '$ionicModal', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function($scope, $stateParams) {
 
+    function ($scope, $stateParams, $ionicModal, $http) {
+      const vm = this;
+
+      vm.$onInit = onInit;
+      vm.wifiName = "EGGNOGG";
+
+      function onInit() {
+        $ionicModal.fromTemplateUrl('wifi-modal.html', {
+          scope: $scope,
+          animation: 'slide-in-up'
+        }).then(function (modal) {
+          $scope.modal = modal;
+        });
+        $http.get("http://eggnogg:8000/")
+          .then((response) => {
+            vm.message = ["Thank you for connecting to ", ""];
+            $scope.modal.show();
+          }, (error) => {
+            vm.message = ["Please ensure your phone is connected to ", " before continuing."];
+            $scope.modal.show();
+          });
+      }
     }
   ])
 
