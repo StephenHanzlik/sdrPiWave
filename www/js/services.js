@@ -13,14 +13,16 @@ angular.module('app.services', [])
 
     // once getFiles has been called, access the files object via filesService.files //
 
+    let service = this;
+
     this.getFiles = getFiles;
     this.parseIcons = parseIcons;
 
     function getFiles() {
       return $http.get("http://eggnogg:8000/uploads/")
         .success(function(uploads) {
-          this.files = parseIcons(uploads);
-          return this.files;
+          service.files = parseIcons(uploads);
+          return service.files;
         })
         .error(function(data) {
           alert(`error: ${data}`);
@@ -41,7 +43,6 @@ angular.module('app.services', [])
           case ('.wma'):
             {
               post.icon = "ion-music-note";
-              post.type = "audio";
               break;
             }
           case ('.mov'):
@@ -50,7 +51,6 @@ angular.module('app.services', [])
           case ('.avi'):
             {
               post.icon = "ion-ios-film-outline";
-              post.type = "video";
               break;
             }
           case ('.jpg'):
@@ -62,7 +62,6 @@ angular.module('app.services', [])
           case ('.bmp'):
             {
               post.icon = "ion-image";
-              post.type = "image";
               break;
             }
           case ('.txt'):
@@ -77,13 +76,11 @@ angular.module('app.services', [])
           case ('.ttf'):
             {
               post.icon = "ion-document";
-              post.type = "text";
               break;
             }
           default:
             {
               post.icon = "ion-nuclear";
-              post.type = "misc";
               break;
             }
         }
@@ -92,27 +89,27 @@ angular.module('app.services', [])
     }
   }]);
 
-// TEST DATA FOR OFFLINE USE ---- Used within getFiles//
-// this.files = {
-//   test1: {
-//     path: "/file/new.mp3",
-//     name: "new.mp3",
-//     username: "TESTUSER"
-//   },
-//   test2: {
-//     path: "/file/other.mp4",
-//     name: "other.mp4",
-//     username: "TESTUSER2"
-//   },
-//   test3: {
-//     path: "/file/test.docx",
-//     name: "test.docx",
-//     username: "TESTUSER3"
-//   },
-//   test4: {
-//     path: "/file/newthing.tif",
-//     name: "newthing.tif",
-//     username: "TESTUSER4"
-//   }
-// };
-// return parseIcons(this.files);
+  // // TEST DATA FOR OFFLINE USE//
+  // this.files = {
+  //   test1: {
+  //     path: "/file/new.mp3",
+  //     name: "new.mp3",
+  //     username: "TESTUSER"
+  //   },
+  //   test2: {
+  //     path: "/file/other.mp4",
+  //     name: "other.mp4",
+  //     username: "TESTUSER2"
+  //   },
+  //   test3: {
+  //     path: "/file/test.docx",
+  //     name: "test.docx",
+  //     username: "TESTUSER3"
+  //   },
+  //   test4: {
+  //     path: "/file/newthing.tif",
+  //     name: "newthing.tif",
+  //     username: "TESTUSER4"
+  //   }
+  // };
+  // return parseIcons(this.files);
