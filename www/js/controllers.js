@@ -2,26 +2,48 @@
 
 angular.module('app.controllers', ['ionic'])
 
-  .controller('menuCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-    // You can include any angular dependencies as parameters for this function
-    // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function($scope, $stateParams) {
+.controller('menuCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+  // You can include any angular dependencies as parameters for this function
+  // TIP: Access Route Parameters for your page via $stateParams.parameterName
+  function($scope, $stateParams) {
 
-    }
-  ])
+  }
+])
 
-  .controller('homeCtrl', ['$scope', '$stateParams', 'filesService', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('homeCtrl', ['$scope', '$stateParams', 'filesService', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
     function($scope, $stateParams, filesService) {
       const vm = this;
       vm.$onInit = onInit;
+      vm.viewMedia = viewMedia;
+      vm.downloadMedia = downloadMedia;
 
       function onInit() {
         filesService.getFiles()
           .then((res) => {
             vm.data = res.data;
           });
+      } //end of oninit function
+      function viewMedia(post) {
+        var options = {
+          successCallback: function() {
+            console.log("Video was closed without error.");
+          },
+          errorCallback: function(errMsg) {
+            console.log("Error! " + errMsg);
+          },
+          orientation: 'landscape'
+        };
+        alert("viewing media " + post.path);
+        console.log(post.path);
+        window.plugins.streamingMedia.playVideo(post.path, options);
+
+      }
+
+      function downloadMedia(post) {
+        alert("downloading media " + post.path);
+        console.log(post);
       }
     }
   ])
@@ -39,156 +61,156 @@ angular.module('app.controllers', ['ionic'])
     }
   ])
 
-  .controller('profileCtrl', ['$scope', '$stateParams', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-    // You can include any angular dependencies as parameters for this function
-    // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function($scope, $stateParams, $http) {
-      const vm = this;
-      vm.$onInit = onInit;
+.controller('profileCtrl', ['$scope', '$stateParams', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+  // You can include any angular dependencies as parameters for this function
+  // TIP: Access Route Parameters for your page via $stateParams.parameterName
+  function($scope, $stateParams, $http) {
+    const vm = this;
+    vm.$onInit = onInit;
 
 
-      function onInit() {
-        return $http.get(`http://eggnogg:8000/users/${user.id}`)
-          .success(function(user) {
-            vm.userProfile = user;
-          })
-          .error(function(data) {
-            alert(`error: ${data}`);
-          });
-      }
-    }
-  ])
-
-  .controller('loginCtrl', ['$scope', '$stateParams', '$http', '$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-    // You can include any angular dependencies as parameters for this function
-    // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function($scope, $stateParams, $http, $state) {
-      const vm = this;
-      vm.login = login;
-
-      function login() {
-
-        if (!vm.loginForm.email) {
-          window.plugins.toast.showWithOptions({
-            message: "Please enter an email",
-            duration: "long",
-            position: "center",
-            addPixelsY: -40
-          });
-        } else if (!vm.loginForm.password) {
-          window.plugins.toast.showWithOptions({
-            message: "Please enter an password",
-            duration: "long",
-            position: "center",
-            addPixelsY: -40
-          });
-        } else {
-          $http.post("http://eggnogg:8000/token/", vm.loginForm)
-            .success(function(response) {
-              alert("success post to http://eggnogg:8000/token/");
-              vm.data = response;
-              $state.go('tabsController.home');
-            })
-            .error(function(response) {
-              alert("error post to http://eggnogg:8000/token/");
-            });
-        }
-
-      }
-    }
-  ])
-
-  .controller('landingCtrl', ['$scope', '$stateParams', '$ionicModal', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-    // You can include any angular dependencies as parameters for this function
-    // TIP: Access Route Parameters for your page via $stateParams.parameterName
-
-    function ($scope, $stateParams, $ionicModal, $http) {
-      const vm = this;
-
-      vm.$onInit = onInit;
-      vm.toggleModal = toggleModal;
-      vm.testNetwork = testNetwork;
-      vm.buttonMessage = "Try Again";
-      vm.wifiName = "EGGNOGG";
-      vm.showModal = true;
-
-      function testNetwork() {
-        $http.get("http://eggnogg:8000/")
-          .then((response) => {
-            vm.message = ["Thank you for connecting to ", ""];
-            vm.showModal = false;
-            vm.buttonMessage = "Continue";
-            toggleModal();
-          }, (error) => {
-            vm.message = ["Please ensure your phone is connected to ", " before continuing."];
-            vm.showModal = true;
-            toggleModal();
-          });
-      }
-
-      function toggleModal() {
-        if (vm.showModal) {
-          vm.modal.show();
-        } else {
-          vm.modal.hide();
-        }
-      }
-
-      function onInit() {
-        $ionicModal.fromTemplateUrl('wifi-modal.html', {
-          scope: $scope,
-          animation: 'slide-in-up'
-        }).then(function (modal) {
-          vm.modal = modal;
+    function onInit() {
+      return $http.get(`http://eggnogg:8000/users/${user.id}`)
+        .success(function(user) {
+          vm.userProfile = user;
+        })
+        .error(function(data) {
+          alert(`error: ${data}`);
         });
-        testNetwork();
+    }
+  }
+])
+
+.controller('loginCtrl', ['$scope', '$stateParams', '$http', '$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+  // You can include any angular dependencies as parameters for this function
+  // TIP: Access Route Parameters for your page via $stateParams.parameterName
+  function($scope, $stateParams, $http, $state) {
+    const vm = this;
+    vm.login = login;
+
+    function login() {
+
+      if (!vm.loginForm.email) {
+        window.plugins.toast.showWithOptions({
+          message: "Please enter an email",
+          duration: "long",
+          position: "center",
+          addPixelsY: -40
+        });
+      } else if (!vm.loginForm.password) {
+        window.plugins.toast.showWithOptions({
+          message: "Please enter an password",
+          duration: "long",
+          position: "center",
+          addPixelsY: -40
+        });
+      } else {
+        $http.post("http://eggnogg:8000/token/", vm.loginForm)
+          .success(function(response) {
+            alert("success post to http://eggnogg:8000/token/");
+            vm.data = response;
+            $state.go('tabsController.home');
+          })
+          .error(function(response) {
+            alert("error post to http://eggnogg:8000/token/");
+          });
+      }
+
+    }
+  }
+])
+
+.controller('landingCtrl', ['$scope', '$stateParams', '$ionicModal', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+  // You can include any angular dependencies as parameters for this function
+  // TIP: Access Route Parameters for your page via $stateParams.parameterName
+
+  function($scope, $stateParams, $ionicModal, $http) {
+    const vm = this;
+
+    vm.$onInit = onInit;
+    vm.toggleModal = toggleModal;
+    vm.testNetwork = testNetwork;
+    vm.buttonMessage = "Try Again";
+    vm.wifiName = "EGGNOGG";
+    vm.showModal = true;
+
+    function testNetwork() {
+      $http.get("http://eggnogg:8000/")
+        .then((response) => {
+          vm.message = ["Thank you for connecting to ", ""];
+          vm.showModal = false;
+          vm.buttonMessage = "Continue";
+          toggleModal();
+        }, (error) => {
+          vm.message = ["Please ensure your phone is connected to ", " before continuing."];
+          vm.showModal = true;
+          toggleModal();
+        });
+    }
+
+    function toggleModal() {
+      if (vm.showModal) {
+        vm.modal.show();
+      } else {
+        vm.modal.hide();
       }
     }
-  ])
 
-  .controller('signupCtrl', ['$scope', '$stateParams', '$http', '$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-    // You can include any angular dependencies as parameters for this function
-    // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function($scope, $stateParams, $http, $state) {
+    function onInit() {
+      $ionicModal.fromTemplateUrl('wifi-modal.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+      }).then(function(modal) {
+        vm.modal = modal;
+      });
+      testNetwork();
+    }
+  }
+])
 
-      const vm = this;
-      vm.signup = signup;
+.controller('signupCtrl', ['$scope', '$stateParams', '$http', '$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+  // You can include any angular dependencies as parameters for this function
+  // TIP: Access Route Parameters for your page via $stateParams.parameterName
+  function($scope, $stateParams, $http, $state) {
 
-      function signup() {
+    const vm = this;
+    vm.signup = signup;
 
-        if (!vm.signupForm.email) {
-          window.plugins.toast.showWithOptions({
-            message: "Please enter an email",
-            duration: "long",
-            position: "center",
-            addPixelsY: -40
+    function signup() {
+
+      if (!vm.signupForm.email) {
+        window.plugins.toast.showWithOptions({
+          message: "Please enter an email",
+          duration: "long",
+          position: "center",
+          addPixelsY: -40
+        });
+      } else if (!vm.signupForm.username) {
+        window.plugins.toast.showWithOptions({
+          message: "Please enter an username",
+          duration: "long",
+          position: "center",
+          addPixelsY: -40
+        });
+      } else if (!vm.signupForm.password) {
+        window.plugins.toast.showWithOptions({
+          message: "Please enter an password",
+          duration: "long",
+          position: "center",
+          addPixelsY: -40
+        });
+      } else {
+        $http.post("http://eggnogg:8000/users/", vm.signupForm)
+          .success(function(response) {
+            alert("Success post to http://eggnogg:8000/token/");
+            vm.data = response;
+            $state.go('tabsController.profile');
+          })
+          .error(function(response) {
+            alert(response)
+            alert("error post to http://eggnogg:8000/token/");
           });
-        } else if (!vm.signupForm.username) {
-          window.plugins.toast.showWithOptions({
-            message: "Please enter an username",
-            duration: "long",
-            position: "center",
-            addPixelsY: -40
-          });
-        } else if (!vm.signupForm.password) {
-          window.plugins.toast.showWithOptions({
-            message: "Please enter an password",
-            duration: "long",
-            position: "center",
-            addPixelsY: -40
-          });
-        } else {
-          $http.post("http://eggnogg:8000/users/", vm.signupForm)
-            .success(function(response) {
-              alert("Success post to http://eggnogg:8000/token/");
-              vm.data = response;
-              $state.go('tabsController.profile');
-            })
-            .error(function(response) {
-              alert(response)
-              alert("error post to http://eggnogg:8000/token/");
-            });
-        }
       }
     }
-  ])
+  }
+])

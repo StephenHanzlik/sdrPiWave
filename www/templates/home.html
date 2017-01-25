@@ -5,10 +5,9 @@
         <h2>{{ post.name }}</h2>
         <p>{{ post.username }}</p>
         <i class="icon {{ post.icon }}"></i>
-        <ion-option-button class="button-royal">DOWNLOAD</ion-option-button>
-        <ion-option-button class="button-energized">VIEW</ion-option-button>
+        <ion-option-button class="button-royal" ng-click="$ctrl.downloadMedia(post)">DOWNLOAD</ion-option-button>
+        <ion-option-button class="button-energized" ng-click="$ctrl.viewMedia(post)">VIEW</ion-option-button>
       </ion-item>
     </ion-list>
-    <p>this is test</p>
   </ion-content>
 </ion-view>
