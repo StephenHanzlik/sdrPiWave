@@ -16,6 +16,7 @@ angular.module('app.controllers', ['ionic'])
     function($scope, $stateParams, filesService) {
       const vm = this;
       vm.$onInit = onInit;
+      console.log("loading oninit");
       // alert("loading oninit")
       vm.streamMedia = streamMedia;
       // alert("got to streamMedia")
