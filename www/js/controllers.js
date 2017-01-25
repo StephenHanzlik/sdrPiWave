@@ -91,6 +91,7 @@ angular.module('app.controllers', ['ionic'])
             })
             .error(function(response) {
               alert("error post to http://eggnogg:8000/token/");
+              alert(response);
             });
         }
 
@@ -113,13 +114,14 @@ angular.module('app.controllers', ['ionic'])
       vm.showModal = true;
 
       function testNetwork() {
-        $http.get("http://eggnogg:8000/")
+        $http.get("http://eggnogg:8000")
           .then((response) => {
             vm.message = ["Thank you for connecting to ", ""];
             vm.showModal = false;
             vm.buttonMessage = "Continue";
             toggleModal();
           }, (error) => {
+            alert(error.statusText);
             vm.message = ["Please ensure your phone is connected to ", " before continuing."];
             vm.showModal = true;
             toggleModal();
