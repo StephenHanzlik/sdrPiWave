@@ -16,24 +16,21 @@ angular.module('app.controllers', ['ionic'])
     function($scope, $stateParams, filesService) {
       const vm = this;
       vm.$onInit = onInit;
-      alert("loading oninit")
       vm.streamMedia = streamMedia;
-      alert("got to streamMedia")
       vm.downloadMedia = downloadMedia;
 
       function onInit() {
-        alert("made it into init")
         filesService.getFiles()
           .then((res) => {
             vm.data = res.data;
-            alert(res +"this is res")
+        
           });
       }
 
       function streamMedia(post) {
 
         alert("streaming some media" + post.path)
-        
+
       }
 
       function downloadMedia(post) {
