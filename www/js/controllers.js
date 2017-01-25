@@ -72,30 +72,31 @@ angular.module('app.controllers', ['ionic'])
       const vm = this;
 
       vm.$onInit = onInit;
-      vm.toggleModal=toggleModal;
-      vm.testNetwork=testNetwork;
-      vm.buttonMessage="Try Again";
+      vm.toggleModal = toggleModal;
+      vm.testNetwork = testNetwork;
+      vm.buttonMessage = "Try Again";
       vm.wifiName = "EGGNOGG";
+      vm.showModal = true;
 
       function testNetwork() {
         $http.get("http://eggnogg:8000/")
           .then((response) => {
             vm.message = ["Thank you for connecting to ", ""];
-            vm.showModal=false;
-            vm.buttonMessage="Continue";
+            vm.showModal = false;
+            vm.buttonMessage = "Continue";
             toggleModal();
           }, (error) => {
             vm.message = ["Please ensure your phone is connected to ", " before continuing."];
-            vm.showModal=true;
+            vm.showModal = true;
             toggleModal();
           });
       }
 
       function toggleModal() {
-        if (!vm.showModal) {
-          vm.modal.hide();
-        } else {
+        if (vm.showModal) {
           vm.modal.show();
+        } else {
+          vm.modal.hide();
         }
       }
 
