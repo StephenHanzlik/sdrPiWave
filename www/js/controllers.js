@@ -102,7 +102,7 @@ angular.module('app.controllers', ['ionic'])
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
 
-    function ($scope, $stateParams, $ionicModal, $http) {
+    function($scope, $stateParams, $ionicModal, $http) {
       const vm = this;
 
       vm.$onInit = onInit;
@@ -138,7 +138,7 @@ angular.module('app.controllers', ['ionic'])
         $ionicModal.fromTemplateUrl('wifi-modal.html', {
           scope: $scope,
           animation: 'slide-in-up'
-        }).then(function (modal) {
+        }).then(function(modal) {
           vm.modal = modal;
         });
         testNetwork();
