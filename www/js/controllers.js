@@ -63,7 +63,7 @@ angular.module('app.controllers', ['ionic'])
         return $http.get(`http://eggnogg:8000/users/${user}`)
           .success(function(userProfile) {
             vm.data= userProfile;
-
+            console.log(userProfile);
           })
           .error(function (data) {
             alert(`error: ${data}`);

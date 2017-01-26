@@ -6,7 +6,10 @@
         <p>{{ $ctrl.data.email }}</p>
       </ion-item>
       <ion-item class="item-icon-left" id="profile-list-item4">
-        <i class="icon ion-information-circled"></i>information</ion-item>
+        <i class="icon ion-information-circled"></i>
+        <h2>Surfing the PiWave since</h2>
+        <p>{{ $ctrl.data.created_at | date : format : timezone }}</p>
+      </ion-item>
       <ion-list id="profile-list6">
         <ion-item class="item-icon-right" id="profile-list-item8">{{ $ctrl.data.username }}
           <i class="icon ion-android-person"></i>
