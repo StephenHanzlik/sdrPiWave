@@ -39,20 +39,19 @@ angular.module('app.controllers', ['ionic'])
     }
   ])
 
-  .controller('profileCtrl', ['$scope', '$stateParams', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+  .controller('profileCtrl', ['$scope', '$stateParams', '$http', 'filesService', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function($scope, $stateParams, $http) {
+    function($scope, $stateParams, $http, filesService) {
       const vm = this;
       vm.$onInit = onInit;
 
 
       function onInit() {
         var user =localStorage.getItem("user");
+        vm.uploadData = filesService.files;
         return $http.get(`http://eggnogg:8000/users/${user}`)
           .success(function(userProfile) {
-            console.log(userProfile);
-            console.log(localStorage.getItem("token"));
             vm.data= userProfile;
           })
           .error(function(data) {
