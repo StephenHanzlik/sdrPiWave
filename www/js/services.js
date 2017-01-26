@@ -1,7 +1,7 @@
 'use strict';
 angular.module('app.services', [])
 
-  .factory('BlankFactory', [function() {
+  .factory('BlankFactory', [function () {
 
   }])
 
@@ -51,7 +51,6 @@ angular.module('app.services', [])
   }])
 
   .factory('AuthInterceptor', ['AuthTokenFactory', function AuthInterceptor(AuthTokenFactory) {
-    'use strict';
     return {
       request: addToken
     };
@@ -67,11 +66,33 @@ angular.module('app.services', [])
     }
   }])
 
-  .service('BlankService', [function() {
+  .service('BlankService', [function () {
 
   }])
 
-  .service('filesService', ['$http', function($http) {
+  .service('tokenService', ['AuthTokenFactory', '$http', function tokenService(AuthTokenFactory, $http) {
+    this.checkToken = checkToken;
+
+    function checkToken () {
+      const currentToken = AuthTokenFactory.getToken();
+      if (currentToken) {
+        $http.get('eggnogg:8000/token')
+          .then((tokenValid)=>{
+            if (tokenValid===true) {
+              return true;
+            } else {
+              return false;
+            }
+          }, (error)=>{
+            console.log(error);
+            return false;
+          });
+      }
+    }
+
+  }])
+
+  .service('filesService', ['$http', function ($http) {
 
     // once getFiles has been called, access the files object via filesService.files //
 
@@ -82,11 +103,11 @@ angular.module('app.services', [])
 
     function getFiles() {
       return $http.get("http://eggnogg:8000/uploads/")
-        .success(function(uploads) {
+        .success(function (uploads) {
           service.files = parseIcons(uploads);
           return service.files;
         })
-        .error(function(data) {
+        .error(function (data) {
           alert(`error: ${data}`);
         });
     }
@@ -98,53 +119,53 @@ angular.module('app.services', [])
         filename = post.path;
         type = filename.substring(filename.length - 4).toLowerCase();
         switch (type) {
-          case ('.mp3'):
-          case ('.ogg'):
-          case ('.wav'):
-          case ('.aac'):
-          case ('.wma'):
-            {
-              post.icon = "ion-music-note";
-              break;
-            }
-          case ('.mov'):
-          case ('.wmv'):
-          case ('.mp4'):
-          case ('.avi'):
-            {
-              post.icon = "ion-ios-film-outline";
-              break;
-            }
-          case ('.jpg'):
-          case ('jpeg'):
-          case ('.gif'):
-          case ('.png'):
-          case ('.psd'):
-          case ('.tif'):
-          case ('.bmp'):
-            {
-              post.icon = "ion-image";
-              break;
-            }
-          case ('.txt'):
-          case ('.doc'):
-          case ('docx'):
-          case ('.htm'):
-          case ('html'):
-          case ('.pdf'):
-          case ('.rtf'):
-          case ('.xls'):
-          case ('xlsx'):
-          case ('.ttf'):
-            {
-              post.icon = "ion-document";
-              break;
-            }
-          default:
-            {
-              post.icon = "ion-nuclear";
-              break;
-            }
+        case ('.mp3'):
+        case ('.ogg'):
+        case ('.wav'):
+        case ('.aac'):
+        case ('.wma'):
+          {
+            post.icon = "ion-music-note";
+            break;
+          }
+        case ('.mov'):
+        case ('.wmv'):
+        case ('.mp4'):
+        case ('.avi'):
+          {
+            post.icon = "ion-ios-film-outline";
+            break;
+          }
+        case ('.jpg'):
+        case ('jpeg'):
+        case ('.gif'):
+        case ('.png'):
+        case ('.psd'):
+        case ('.tif'):
+        case ('.bmp'):
+          {
+            post.icon = "ion-image";
+            break;
+          }
+        case ('.txt'):
+        case ('.doc'):
+        case ('docx'):
+        case ('.htm'):
+        case ('html'):
+        case ('.pdf'):
+        case ('.rtf'):
+        case ('.xls'):
+        case ('xlsx'):
+        case ('.ttf'):
+          {
+            post.icon = "ion-document";
+            break;
+          }
+        default:
+          {
+            post.icon = "ion-nuclear";
+            break;
+          }
         }
       }
       return files;
