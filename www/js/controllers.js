@@ -86,6 +86,7 @@ angular.module('app.controllers', ['ionic'])
           $http.post("http://eggnogg:8000/token/", vm.loginForm)
             .success(function(response) {
               alert("success post to http://eggnogg:8000/token/");
+              //TODO store user id from response if you want to use it to CRUD data
               vm.data = response;
               $state.go('tabsController.home');
             })
@@ -115,11 +116,13 @@ angular.module('app.controllers', ['ionic'])
       function testNetwork() {
         $http.get("http://eggnogg:8000/")
           .then((response) => {
+            console.log(response);
             vm.message = ["Thank you for connecting to ", ""];
             vm.showModal = false;
             vm.buttonMessage = "Continue";
             toggleModal();
           }, (error) => {
+            console.log(error);
             vm.message = ["Please ensure your phone is connected to ", " before continuing."];
             vm.showModal = true;
             toggleModal();
