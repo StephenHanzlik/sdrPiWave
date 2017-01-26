@@ -57,7 +57,7 @@ angular.module('app.services', [])
     };
 
     function addToken(config) {
-      console.log(Object.keys(config));
+      console.log('Adding Token (if available)', Object.keys(config));
       var token = AuthTokenFactory.getToken();
       if (token) {
         config.headers = config.headers || {};

@@ -114,15 +114,22 @@ angular.module('app.controllers', ['ionic'])
       vm.showModal = true;
 
       function testNetwork() {
-        $http.get("http://eggnogg:8000/")
+        $http.jsonp("http://eggnogg:8000/")
           .then((response) => {
-            console.log(response);
+            console.log('Server success:', response);
             vm.message = ["Thank you for connecting to ", ""];
             vm.showModal = false;
             vm.buttonMessage = "Continue";
             toggleModal();
           }, (error) => {
-            console.log(error);
+            console.log('Server error:', error);
+            console.log('error object:', Object.keys(error));
+            console.log('error data:', error.data);
+            console.log('error status:', error.status);
+            console.log('error text:', error.statusText);
+            console.log('error headers:', error.headers);
+            console.log('error config:', Object.keys(error.config));
+            console.log('error method/url/headers', error.config.method, error.config.url, error.config.headers.Accept);
             vm.message = ["Please ensure your phone is connected to ", " before continuing."];
             vm.showModal = true;
             toggleModal();
