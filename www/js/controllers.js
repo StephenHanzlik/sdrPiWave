@@ -48,9 +48,12 @@ angular.module('app.controllers', ['ionic'])
 
 
       function onInit() {
-        return $http.get(`http://eggnogg:8000/users/${user.id}`)
-          .success(function(user) {
-            vm.userProfile = user;
+        var user =localStorage.getItem("user");
+        return $http.get(`http://eggnogg:8000/users/${user}`)
+          .success(function(userProfile) {
+            console.log(userProfile);
+            console.log(localStorage.getItem("token"));
+            vm.data= userProfile;
           })
           .error(function(data) {
             alert(`error: ${data}`);
@@ -87,6 +90,12 @@ angular.module('app.controllers', ['ionic'])
             .success(function(response) {
               alert("success post to http://eggnogg:8000/token/");
               vm.data = response;
+              console.log("vm.data " ,vm.data.id);
+              var userId =vm.data.id;
+              var token = vm.data.token;
+              window.localStorage.setItem('user',userId);
+              window.localStorage.setItem('token', token);
+              console.log(localStorage.getItem("user"));
               $state.go('tabsController.home');
             })
             .error(function(response) {
@@ -115,13 +124,15 @@ angular.module('app.controllers', ['ionic'])
       function testNetwork() {
         $http.get("http://eggnogg:8000/")
           .then((response) => {
+            console.log("response " + response);
             vm.message = ["Thank you for connecting to ", ""];
             vm.showModal = false;
             vm.buttonMessage = "Continue";
             toggleModal();
           }, (error) => {
+            console.log("error " + error);
             vm.message = ["Please ensure your phone is connected to ", " before continuing."];
-            vm.showModal = true;
+            vm.showModal = false;
             toggleModal();
           });
       }
@@ -145,8 +156,17 @@ angular.module('app.controllers', ['ionic'])
       }
     }
   ])
-
-  .controller('signupCtrl', ['$scope', '$stateParams', '$http', '$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+//   .controller('storageCtrl', ['$scope', '$stateParams', '$http',
+//     function($scope, $stateParams, $http, $localStorage, $sessionStorage){
+//
+//
+//     }
+//
+//
+//
+// ])
+  .controller('signupCtrl', ['$scope', '$stateParams', '$http', '$state',
+ // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
     function($scope, $stateParams, $http, $state) {
