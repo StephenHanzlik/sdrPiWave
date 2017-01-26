@@ -106,7 +106,7 @@ angular.module('app.controllers', ['ionic'])
           }, (error) => {
             console.log('login failed:', error.data);
             window.plugins.toast.showWithOptions({
-              message: `Login failed: ${error.data}\n Please try again.`,
+              message: `Login failed: ${error.data}.\n Please try again.`,
               duration: "long",
               position: "center",
               addPixelsY: -40
@@ -174,11 +174,11 @@ angular.module('app.controllers', ['ionic'])
       }
     }
   ])
-  .controller('signupCtrl', ['$scope', '$stateParams', '$http', '$state',
+  .controller('signupCtrl', ['$scope', '$stateParams', '$http', '$state', 'UserFactory',
     // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function ($scope, $stateParams, $http, $state) {
+    function ($scope, $stateParams, $http, $state, UserFactory) {
 
       const vm = this;
       vm.signup = signup;
@@ -207,17 +207,22 @@ angular.module('app.controllers', ['ionic'])
             addPixelsY: -40
           });
         } else {
-          $http.post("http://eggnogg:8000/users/", vm.signupForm)
-            .success(function (response) {
-              alert("Success post to http://eggnogg:8000/token/");
-              vm.data = response;
+          UserFactory.makeNew(vm.signupForm.email, vm.signupForm.username, vm.signupForm.password)
+            .then(function success(userData) {
+              vm.data = userData;
+              console.log(Object.keys(userData));
+              UserFactory.login(UserFactory.userData);
               $state.go('tabsController.profile');
-            })
-            .error(function (response) {
-              alert(response)
-              alert("error post to http://eggnogg:8000/token/");
+            }, function error(error) {
+              console.log('error creating user');
+              window.plugins.toast.showWithOptions({
+                message: `Failed to create user: ${error.data}.\nPlease try again.`,
+                duration: "long",
+                position: "center",
+                addPixelsY: -40
+              });
             });
         }
       }
     }
-  ])
+  ]);

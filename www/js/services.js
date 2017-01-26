@@ -37,7 +37,7 @@ angular.module('app.services', [])
     };
 
     function getToken() {
-      let token=LocalStorageFactory.getItem(key);
+      let token = LocalStorageFactory.getItem(key);
       LocalStorageFactory.setItem(key, token);
       return token;
     }
@@ -52,29 +52,47 @@ angular.module('app.services', [])
   }])
 
   .factory('UserFactory', ['$q', '$http', 'AuthTokenFactory', 'LocalStorageFactory', function UserFactory($q, $http, AuthTokenFactory, LocalStorageFactory) {
-    let userData={};
+    let userData = {};
 
     return {
+      makeNew,
       login,
       logout,
       userData
     };
 
+    function makeNew(email, username, password) {
+      return $http.post("http://eggnogg:8000/users/", {
+          email,
+          username,
+          password
+        })
+        .then(function success(response) {
+          userData = response.data;
+          LocalStorageFactory.setItem('userId', response.data.id);
+          LocalStorageFactory.setItem('username', response.data.username);
+          return response;
+        }, function error(error) {
+          return $q.reject(error);
+        });
+    }
+
     function login(email, password) {
       return $http.post('http://eggnogg:8000/token', {
-        email: email,
-        password: password
-      }).then(function success(response) {
-        const token=response.data.token;
-        AuthTokenFactory.setToken(token);
-        delete response.data.token;
-        userData=response.data;
-        LocalStorageFactory.setItem('userId',response.data.id);
-        LocalStorageFactory.setItem('username',response.data.username);
-        return response;
-      }, function failure(error) {
-        return $q.reject(error);
-      });
+          email,
+          password
+        })
+        .then(function success(response) {
+          const token = response.data.token;
+          AuthTokenFactory.setToken(token);
+          delete response.data.token;
+          userData = response.data;
+          LocalStorageFactory.setItem('userId', response.data.id);
+          LocalStorageFactory.setItem('username', response.data.username);
+          return response;
+        }, function failure(error) {
+          return $q.reject(error);
+        });
     }
 
     function logout() {
@@ -89,7 +107,7 @@ angular.module('app.services', [])
 
     function addToken(config) {
       var token = AuthTokenFactory.getToken();
-      console.log('token state:',token);
+      console.log('token state:', token);
       if (token) {
         config.headers = config.headers || {};
         config.headers.Authorization = token;
@@ -122,7 +140,7 @@ angular.module('app.services', [])
               return false;
             }
           }, (error) => {
-            console.log('tokenCheck error:',error);
+            console.log('tokenCheck error:', error);
             return false;
           });
       }
@@ -130,13 +148,13 @@ angular.module('app.services', [])
 
   }])
 
-  .service('networkService', ['$http', function($http) {
+  .service('networkService', ['$http', function ($http) {
 
     const service = this;
 
     service.testNetwork = testNetwork;
 
-    function testNetwork () {
+    function testNetwork() {
       return $http.get("http://eggnogg:8000/")
         .then(() => {
           console.log('NETWORK SUCCESS!');
