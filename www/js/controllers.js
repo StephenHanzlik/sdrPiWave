@@ -5,7 +5,7 @@ angular.module('app.controllers', ['ionic'])
   .controller('menuCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function($scope, $stateParams) {
+    function ($scope, $stateParams) {
 
     }
   ])
@@ -13,7 +13,7 @@ angular.module('app.controllers', ['ionic'])
   .controller('homeCtrl', ['$scope', '$stateParams', 'filesService', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function($scope, $stateParams, filesService) {
+    function ($scope, $stateParams, filesService) {
       const vm = this;
       vm.$onInit = onInit;
       vm.playback = playback;
@@ -38,7 +38,7 @@ angular.module('app.controllers', ['ionic'])
   .controller('searchCtrl', ['$scope', '$stateParams', 'filesService', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function($scope, $stateParams, filesService) {
+    function ($scope, $stateParams, filesService) {
       const vm = this;
       vm.$onInit = search;
 
@@ -63,8 +63,9 @@ angular.module('app.controllers', ['ionic'])
         return $http.get(`http://eggnogg:8000/users/${user}`)
           .success(function(userProfile) {
             vm.data= userProfile;
+
           })
-          .error(function(data) {
+          .error(function (data) {
             alert(`error: ${data}`);
           });
       }
@@ -74,7 +75,7 @@ angular.module('app.controllers', ['ionic'])
   .controller('loginCtrl', ['$scope', '$stateParams', '$http', '$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function($scope, $stateParams, $http, $state) {
+    function ($scope, $stateParams, $http, $state) {
       const vm = this;
       vm.login = login;
 
@@ -96,7 +97,7 @@ angular.module('app.controllers', ['ionic'])
           });
         } else {
           $http.post("http://eggnogg:8000/token/", vm.loginForm)
-            .success(function(response) {
+            .success(function (response) {
               alert("success post to http://eggnogg:8000/token/");
               vm.data = response;
               var userId =vm.data.id;
@@ -107,8 +108,9 @@ angular.module('app.controllers', ['ionic'])
               window.localStorage.setItem('username', username);
               $state.go('tabsController.home');
             })
-            .error(function(response) {
+            .error(function (response) {
               alert("error post to http://eggnogg:8000/token/");
+              alert(response);
             });
         }
 
@@ -116,11 +118,11 @@ angular.module('app.controllers', ['ionic'])
     }
   ])
 
-  .controller('landingCtrl', ['$scope', '$stateParams', '$ionicModal', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+  .controller('landingCtrl', ['$scope', '$stateParams', '$ionicModal', '$http', '$timeout', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
 
-    function ($scope, $stateParams, $ionicModal, $http) {
+    function($scope, $stateParams, $ionicModal, $http, $timeout) {
       const vm = this;
 
       vm.$onInit = onInit;
@@ -133,13 +135,15 @@ angular.module('app.controllers', ['ionic'])
       function testNetwork() {
         return $http.get("http://eggnogg:8000/")
           .then((response) => {
-            console.log("response " + response);
+            console.log('SUCCESS!', response);
             vm.message = ["Thank you for connecting to ", ""];
-            vm.showModal = false;
             vm.buttonMessage = "Continue";
-            toggleModal();
+            vm.showModal = false;
+            $timeout(() => {
+              toggleModal();
+            }, 3000);
           }, (error) => {
-            console.log("error " + error);
+            console.log('ERROR!', error);
             vm.message = ["Please ensure your phone is connected to ", " before continuing."];
             vm.showModal = true;
             toggleModal();
@@ -158,7 +162,7 @@ angular.module('app.controllers', ['ionic'])
         $ionicModal.fromTemplateUrl('wifi-modal.html', {
           scope: $scope,
           animation: 'slide-in-up'
-        }).then(function (modal) {
+        }).then(function(modal) {
           vm.modal = modal;
         });
         testNetwork();
@@ -169,7 +173,7 @@ angular.module('app.controllers', ['ionic'])
  // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function($scope, $stateParams, $http, $state) {
+    function ($scope, $stateParams, $http, $state) {
 
       const vm = this;
       vm.signup = signup;
@@ -199,12 +203,12 @@ angular.module('app.controllers', ['ionic'])
           });
         } else {
           $http.post("http://eggnogg:8000/users/", vm.signupForm)
-            .success(function(response) {
+            .success(function (response) {
               alert("Success post to http://eggnogg:8000/token/");
               vm.data = response;
               $state.go('tabsController.profile');
             })
-            .error(function(response) {
+            .error(function (response) {
               alert(response)
               alert("error post to http://eggnogg:8000/token/");
             });
