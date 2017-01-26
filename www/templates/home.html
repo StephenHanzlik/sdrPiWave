@@ -6,8 +6,13 @@
         <p>{{ post.username }}</p>
         <i class="icon {{ post.icon }}"></i>
         <ion-option-button class="button-royal">DOWNLOAD</ion-option-button>
-        <ion-option-button class="button-energized">VIEW</ion-option-button>
+        <ion-option-button class="button-energized" ng-click="$ctrl.playback(post)">VIEW</ion-option-button>
       </ion-item>
+      <div class="transparent fullscreen-player" ng-click="closeModal()">
+        <video ng-src="http://eggnogg:8000/uploads/upload_f653d25e148279beaf67372e3bb476a1_egg_in_boots.mp4" class="centerme" controls="controls" autoplay></video>
+        <!-- <a href="http://eggnogg:8000/uploads/upload_71747b9d48612c489c4de541eb45c2a3_rsz_dsc_0008.jpg" download>Download</a> -->
+        <!-- /home/pi/Public/q2pi-master -->
+      </div>
     </ion-list>
   </ion-content>
 </ion-view>

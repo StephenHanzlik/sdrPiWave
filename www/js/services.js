@@ -37,7 +37,9 @@ angular.module('app.services', [])
     };
 
     function getToken() {
-      return LocalStorageFactory.getItem(key);
+      let token=LocalStorageFactory.getItem(key);
+      LocalStorageFactory.setItem(key, token);
+      return token;
     }
 
     function setToken(token) {
@@ -49,24 +51,29 @@ angular.module('app.services', [])
     }
   }])
 
-  .factory('UserFactory', ['$http', 'AuthTokenFactory', function UserFactory($http, AuthTokenFactory) {
+  .factory('UserFactory', ['$q', '$http', 'AuthTokenFactory', 'LocalStorageFactory', function UserFactory($q, $http, AuthTokenFactory, LocalStorageFactory) {
+    let userData={};
 
     return {
       login,
-      logout
+      logout,
+      userData
     };
 
-    function login(username, password) {
+    function login(email, password) {
       return $http.post('http://eggnogg:8000/token', {
-        username: username,
+        email: email,
         password: password
       }).then(function success(response) {
         const token=response.data.token;
         AuthTokenFactory.setToken(token);
         delete response.data.token;
-        return response.data;
+        userData=response.data;
+        LocalStorageFactory.setItem('userId',response.data.id);
+        LocalStorageFactory.setItem('username',response.data.username);
+        return response;
       }, function failure(error) {
-        return error;
+        return $q.reject(error);
       });
     }
 
@@ -81,8 +88,8 @@ angular.module('app.services', [])
     };
 
     function addToken(config) {
-      console.log('Adding Token (if available)', Object.keys(config));
       var token = AuthTokenFactory.getToken();
+      console.log('token state:',token);
       if (token) {
         config.headers = config.headers || {};
         config.headers.Authorization = token;
@@ -107,18 +114,38 @@ angular.module('app.services', [])
         $http.get('eggnogg:8000/token')
           .then((tokenValid) => {
             if (tokenValid === true) {
-              AuthTokenFactory.setToken(currentToken);
+              console.log('token valid! keeping it.');
               return true;
             } else {
+              console.log('token invalid! removing it.');
+              AuthTokenFactory.deleteToken();
               return false;
             }
           }, (error) => {
-            console.log(error);
+            console.log('tokenCheck error:',error);
             return false;
           });
       }
     }
 
+  }])
+
+  .service('networkService', ['$http', function($http) {
+
+    const service = this;
+
+    service.testNetwork = testNetwork;
+
+    function testNetwork () {
+      return $http.get("http://eggnogg:8000/")
+        .then(() => {
+          console.log('NETWORK SUCCESS!');
+          return true;
+        }, () => {
+          console.log('NETWORK ERROR!');
+          return false;
+        });
+    }
   }])
 
   .service('filesService', ['$http', function ($http) {

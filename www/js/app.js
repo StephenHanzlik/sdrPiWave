@@ -5,13 +5,15 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives', 'app.services', ])
 
-  .config(function($ionicConfigProvider, $sceDelegateProvider, $httpProvider) {
+angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives','app.services',])
+//'ngStorage'
+.config(function($ionicConfigProvider, $sceDelegateProvider, $httpProvider) {
 
-    $httpProvider.interceptors.push('AuthInterceptor');
+  $httpProvider.interceptors.push('AuthInterceptor');
 
-    $sceDelegateProvider.resourceUrlWhitelist(['self', '*://www.youtube.com/**', '*://player.vimeo.com/video/**']);
+
+  $sceDelegateProvider.resourceUrlWhitelist([ 'self','*://www.youtube.com/**', '*://player.vimeo.com/video/**']);
 
   })
 
@@ -36,8 +38,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
   */
   .directive('disableSideMenuDrag', ['$ionicSideMenuDelegate', '$rootScope', function($ionicSideMenuDelegate, $rootScope) {
     return {
-      restrict: "A",
-      controller: ['$scope', '$element', '$attrs', function($scope, $element, $attrs) {
+        restrict: "A",
+        controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
 
         function stopDrag() {
           $ionicSideMenuDelegate.canDragContent(false);
@@ -55,31 +57,31 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
 
       }]
     };
-  }])
+}])
 
-  /*
-    This directive is used to open regular and dynamic href links inside of inappbrowser.
-  */
-  .directive('hrefInappbrowser', function() {
-    return {
-      restrict: 'A',
-      replace: false,
-      transclude: false,
-      link: function(scope, element, attrs) {
-        var href = attrs['hrefInappbrowser'];
+/*
+  This directive is used to open regular and dynamic href links inside of inappbrowser.
+*/
+.directive('hrefInappbrowser', function() {
+  return {
+    restrict: 'A',
+    replace: false,
+    transclude: false,
+    link: function(scope, element, attrs) {
+      var href = attrs['hrefInappbrowser'];
 
-        attrs.$observe('hrefInappbrowser', function(val) {
-          href = val;
-        });
+      attrs.$observe('hrefInappbrowser', function(val){
+        href = val;
+      });
 
-        element.bind('click', function(event) {
+      element.bind('click', function (event) {
 
-          window.open(href, '_system', 'location=yes');
+        window.open(href, '_system', 'location=yes');
 
-          event.preventDefault();
-          event.stopPropagation();
+        event.preventDefault();
+        event.stopPropagation();
 
-        });
-      }
-    };
-  });
+      });
+    }
+  };
+});
