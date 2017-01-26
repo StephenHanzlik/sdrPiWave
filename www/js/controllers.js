@@ -39,17 +39,21 @@ angular.module('app.controllers', ['ionic'])
     }
   ])
 
-  .controller('profileCtrl', ['$scope', '$stateParams', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+  .controller('profileCtrl', ['$scope', '$stateParams', '$http', 'filesService', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function ($scope, $stateParams, $http) {
+    function($scope, $stateParams, $http, filesService) {
       const vm = this;
       vm.$onInit = onInit;
+      vm.profileFilter =localStorage.getItem("username");
 
       function onInit() {
-        return $http.get(`http://eggnogg:8000/users/${user.id}`)
-          .success(function (user) {
-            vm.userProfile = user;
+        var user =localStorage.getItem("user");
+        vm.uploadData = filesService.files;
+        return $http.get(`http://eggnogg:8000/users/${user}`)
+          .success(function(userProfile) {
+            vm.data= userProfile;
+
           })
           .error(function (data) {
             alert(`error: ${data}`);
@@ -86,6 +90,12 @@ angular.module('app.controllers', ['ionic'])
             .success(function (response) {
               alert("success post to http://eggnogg:8000/token/");
               vm.data = response;
+              var userId =vm.data.id;
+              var token = vm.data.token;
+              var username = vm.data.username;
+              window.localStorage.setItem('user',userId);
+              window.localStorage.setItem('token', token);
+              window.localStorage.setItem('username', username);
               $state.go('tabsController.home');
             })
             .error(function (response) {
@@ -149,8 +159,17 @@ angular.module('app.controllers', ['ionic'])
       }
     }
   ])
-
-  .controller('signupCtrl', ['$scope', '$stateParams', '$http', '$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+//   .controller('storageCtrl', ['$scope', '$stateParams', '$http',
+//     function($scope, $stateParams, $http, $localStorage, $sessionStorage){
+//
+//
+//     }
+//
+//
+//
+// ])
+  .controller('signupCtrl', ['$scope', '$stateParams', '$http', '$state',
+ // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
     function ($scope, $stateParams, $http, $state) {
