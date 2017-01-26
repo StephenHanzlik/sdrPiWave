@@ -5,7 +5,7 @@ angular.module('app.controllers', ['ionic'])
   .controller('menuCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function ($scope, $stateParams) {
+    function($scope, $stateParams) {
 
     }
   ])
@@ -13,9 +13,11 @@ angular.module('app.controllers', ['ionic'])
   .controller('homeCtrl', ['$scope', '$stateParams', 'filesService', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function ($scope, $stateParams, filesService) {
+    function($scope, $stateParams, filesService) {
       const vm = this;
       vm.$onInit = onInit;
+      vm.playback = playback;
+      vm.returnPath = returnPath;
 
       function onInit() {
         filesService.getFiles()
@@ -23,12 +25,22 @@ angular.module('app.controllers', ['ionic'])
             vm.data = res.data;
           });
       }
+
+      function playback(post) {
+        post.showMedia = true;
+        vm.watchPost = "http://eggnogg:8000/" + post.category;
+      }
+
+      function returnPath(post) {
+        vm.watchPost = "http://eggnogg:8000/" + post.category;
+        return vm.watchPost;
+      }
     }
   ])
   .controller('searchCtrl', ['$scope', '$stateParams', 'filesService', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function ($scope, $stateParams, filesService) {
+    function($scope, $stateParams, filesService) {
       const vm = this;
       vm.$onInit = search;
 
@@ -53,9 +65,8 @@ angular.module('app.controllers', ['ionic'])
         return $http.get(`http://eggnogg:8000/users/${user}`)
           .success(function (userProfile) {
             vm.data = userProfile;
-
           })
-          .error(function (data) {
+          .error(function(data) {
             alert(`error: ${data}`);
           });
       }
@@ -112,6 +123,23 @@ angular.module('app.controllers', ['ionic'])
                 position: "center",
                 addPixelsY: -40
               });
+// =======
+//           $http.post("http://eggnogg:8000/token/", vm.loginForm)
+//             .success(function(response) {
+//               alert("success post to http://eggnogg:8000/token/");
+//               vm.data = response;
+//               var userId = vm.data.id;
+//               var token = vm.data.token;
+//               var username = vm.data.username;
+//               window.localStorage.setItem('user', userId);
+//               window.localStorage.setItem('token', token);
+//               window.localStorage.setItem('username', username);
+//               $state.go('tabsController.home');
+//             })
+//             .error(function(response) {
+//               alert("error post to http://eggnogg:8000/token/");
+//               alert(response);
+// >>>>>>> d1b5db709d1b4f872ad8256086c5dba91560db13
             });
         }
 
@@ -158,9 +186,9 @@ angular.module('app.controllers', ['ionic'])
 
       function toggleModal() {
         if (vm.showModal) {
-          vm.modal.show();
+          return vm.modal.show();
         } else {
-          vm.modal.remove();
+          return vm.modal.remove();
         }
       }
 
@@ -175,6 +203,7 @@ angular.module('app.controllers', ['ionic'])
       }
     }
   ])
+<<<<<<< HEAD
   .controller('signupCtrl', ['$scope', '$stateParams', '$http', '$state', 'userService',
     // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
@@ -215,6 +244,7 @@ angular.module('app.controllers', ['ionic'])
               vm.data.password = vm.password;
               userService.login(vm.data.email, vm.data.password)
                 .then((res) => {
+                  vm.data=res;
                   $state.go('tabsController.profile');
                 }, (error) => {
                   $state.go('tabsController.login');
@@ -226,6 +256,17 @@ angular.module('app.controllers', ['ionic'])
                 position: "center",
                 addPixelsY: -40
               });
+// =======
+//           $http.post("http://eggnogg:8000/users/", vm.signupForm)
+//             .success(function(response) {
+//               alert("Created a profile, please log in");
+//               vm.data = response;
+//               $state.go('login');
+//             })
+//             .error(function(response) {
+//               alert(response)
+//               alert("error post to http://eggnogg:8000/token/");
+// >>>>>>> d1b5db709d1b4f872ad8256086c5dba91560db13
             });
         }
       }

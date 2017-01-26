@@ -12,8 +12,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
 
   $httpProvider.interceptors.push('AuthInterceptor');
 
-
-  $sceDelegateProvider.resourceUrlWhitelist([ 'self','*://www.youtube.com/**', '*://player.vimeo.com/video/**']);
+  $sceDelegateProvider.resourceUrlWhitelist([ 'self','*://www.youtube.com/**', '*://player.vimeo.com/video/**', 'http://eggnogg:8000/**']);
 
   })
 

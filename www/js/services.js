@@ -15,20 +15,20 @@ angular.module('app.services', [])
     };
 
     function setItem(key, value) {
-      store.setItem(key, value);
+      return store.setItem(key, value);
     }
 
     function getItem(key) {
-      store.getItem(key);
+      return store.getItem(key);
     }
 
     function removeItem(key) {
-      store.removeItem(key);
+      return store.removeItem(key);
     }
   }])
 
   .factory('AuthTokenFactory', ['LocalStorageFactory', function AuthTokenFactory(LocalStorageFactory) {
-    const key = 'auth-token';
+    const key = 'token';
 
     return {
       getToken,
@@ -37,9 +37,7 @@ angular.module('app.services', [])
     };
 
     function getToken() {
-      let token = LocalStorageFactory.getItem(key);
-      LocalStorageFactory.setItem(key, token);
-      return token;
+      return LocalStorageFactory.getItem(key);
     }
 
     function setToken(token) {
@@ -244,28 +242,3 @@ angular.module('app.services', [])
       return files;
     }
   }]);
-
-// // TEST DATA FOR OFFLINE USE//
-// this.files = {
-//   test1: {
-//     path: "/file/new.mp3",
-//     name: "new.mp3",
-//     username: "TESTUSER"
-//   },
-//   test2: {
-//     path: "/file/other.mp4",
-//     name: "other.mp4",
-//     username: "TESTUSER2"
-//   },
-//   test3: {
-//     path: "/file/test.docx",
-//     name: "test.docx",
-//     username: "TESTUSER3"
-//   },
-//   test4: {
-//     path: "/file/newthing.tif",
-//     name: "newthing.tif",
-//     username: "TESTUSER4"
-//   }
-// };
-// return parseIcons(this.files);
