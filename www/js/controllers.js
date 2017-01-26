@@ -98,11 +98,11 @@ angular.module('app.controllers', ['ionic'])
     }
   ])
 
-  .controller('landingCtrl', ['$scope', '$stateParams', '$ionicModal', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+  .controller('landingCtrl', ['$scope', '$stateParams', '$ionicModal', '$http', '$timeout' // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
 
-    function($scope, $stateParams, $ionicModal, $http) {
+    function($scope, $stateParams, $ionicModal, $http, $timeout) {
       const vm = this;
 
       vm.$onInit = onInit;
@@ -119,7 +119,7 @@ angular.module('app.controllers', ['ionic'])
             vm.message = ["Thank you for connecting to ", ""];
             vm.buttonMessage = "Continue";
             vm.showModal = false;
-            setTimeout(() => {
+            $timeout(() => {
               toggleModal();
             }, 3000);
           }, (error) => {
