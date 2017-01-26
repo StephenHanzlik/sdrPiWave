@@ -12,3 +12,11 @@ body {
   max-height: 260px !important;
   width: 60% !important;
 }
+
+.fullscreenModal{
+ top: 0 ;
+ bottom: 0 ;
+ left: 0 ;
+ right: 0 ;
+ width: 100% ;
+}
