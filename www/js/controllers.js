@@ -159,15 +159,6 @@ angular.module('app.controllers', ['ionic'])
       }
     }
   ])
-//   .controller('storageCtrl', ['$scope', '$stateParams', '$http',
-//     function($scope, $stateParams, $http, $localStorage, $sessionStorage){
-//
-//
-//     }
-//
-//
-//
-// ])
   .controller('signupCtrl', ['$scope', '$stateParams', '$http', '$state',
  // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
