@@ -206,9 +206,9 @@ angular.module('app.controllers', ['ionic'])
         } else {
           $http.post("http://eggnogg:8000/users/", vm.signupForm)
             .success(function(response) {
-              alert("Success post to http://eggnogg:8000/token/");
+              alert("Created a profile, please log in");
               vm.data = response;
-              $state.go('tabsController.profile');
+              $state.go('login');
             })
             .error(function(response) {
               alert(response)

@@ -4,6 +4,7 @@
       <ion-item class="item-avatar" id="profile-list-item3">
         <h2 ng-model="profileUploads">{{ $ctrl.data.username }}</h2>
         <p>{{ $ctrl.data.email }}</p>
+        <img src="{{$ctrl.data.avatar_path}}" alt="avatar">
       </ion-item>
       <ion-item class="item-icon-left" id="profile-list-item4">
         <i class="icon ion-information-circled"></i>
@@ -21,8 +22,9 @@
           <ion-option-button class="button-assertive">DELETE</ion-option-button>
           <ion-option-button class="button-calm">EDIT</ion-option-button>
         </ion-item>
-        <ion-item class="item-icon-right" id="profile-list-item17">UPLOADS
+        <ion-item class="item-icon-right" id="profile-list-item17">YOUR MEDIA | swipe left to upload
           <i class="icon ion-ios-film"></i>
+          <ion-option-button class="button-calm">NEW UPLOAD</ion-option-button>
         </ion-item>
         <ion-item>
         <ion-list id="profile">
