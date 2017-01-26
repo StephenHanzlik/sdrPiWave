@@ -45,7 +45,7 @@ angular.module('app.controllers', ['ionic'])
     function($scope, $stateParams, $http, filesService) {
       const vm = this;
       vm.$onInit = onInit;
-
+      vm.profileFilter =localStorage.getItem("username");
 
       function onInit() {
         var user =localStorage.getItem("user");
@@ -89,12 +89,12 @@ angular.module('app.controllers', ['ionic'])
             .success(function(response) {
               alert("success post to http://eggnogg:8000/token/");
               vm.data = response;
-              console.log("vm.data " ,vm.data.id);
               var userId =vm.data.id;
               var token = vm.data.token;
+              var username = vm.data.username;
               window.localStorage.setItem('user',userId);
               window.localStorage.setItem('token', token);
-              console.log(localStorage.getItem("user"));
+              window.localStorage.setItem('username', username);
               $state.go('tabsController.home');
             })
             .error(function(response) {

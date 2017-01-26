@@ -21,10 +21,9 @@
         <ion-item class="item-icon-right" id="profile-list-item17">UPLOADS
           <i class="icon ion-ios-film"></i>
         </ion-item>
-        <!--  -->
         <ion-item>
         <ion-list id="profile">
-          <ion-item class="item-thumbnail-left item-icon-right" id="profile-list" ng-repeat="post in $ctrl.uploadData">
+          <ion-item class="item-thumbnail-left item-icon-right" id="profile-list" ng-repeat="post in $ctrl.uploadData | filter:{username: $ctrl.profileFilter}">
             <h2>{{ post.name }}</h2>
             <p>{{ post.username }}</p>
             <i class="icon {{ post.icon }}"></i>
@@ -33,7 +32,6 @@
           </ion-item>
         </ion-list>
       </ion-item>
-        <!--  -->
       </ion-list>
     </ion-list>
   </ion-content>
