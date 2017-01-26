@@ -60,9 +60,9 @@ angular.module('app.controllers', ['ionic'])
       vm.profileFilter = localStorage.getItem("username");
 
       function onInit() {
-        var user = localStorage.getItem("user");
+        var userId = localStorage.getItem("userId");
         vm.uploadData = filesService.files;
-        return $http.get(`http://eggnogg:8000/users/${user}`)
+        return $http.get(`http://eggnogg:8000/users/${userId}`)
           .success(function (userProfile) {
             vm.data = userProfile;
           })
@@ -203,7 +203,6 @@ angular.module('app.controllers', ['ionic'])
       }
     }
   ])
-<<<<<<< HEAD
   .controller('signupCtrl', ['$scope', '$stateParams', '$http', '$state', 'userService',
     // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
