@@ -43,60 +43,11 @@ angular.module('app.services', [])
     }
 
     function setToken(token) {
-      LocalStorageFactory.setItem(key, token);
+      return LocalStorageFactory.setItem(key, token);
     }
 
     function deleteToken() {
-      LocalStorageFactory.removeItem(key);
-    }
-  }])
-
-  .factory('UserFactory', ['$q', '$http', 'AuthTokenFactory', 'LocalStorageFactory', function UserFactory($q, $http, AuthTokenFactory, LocalStorageFactory) {
-    let userData = {};
-
-    return {
-      makeNew,
-      login,
-      logout,
-      userData
-    };
-
-    function makeNew(email, username, password) {
-      return $http.post("http://eggnogg:8000/users/", {
-          email,
-          username,
-          password
-        })
-        .then(function success(response) {
-          userData = response.data;
-          LocalStorageFactory.setItem('userId', response.data.id);
-          LocalStorageFactory.setItem('username', response.data.username);
-          return response;
-        }, function error(error) {
-          return $q.reject(error);
-        });
-    }
-
-    function login(email, password) {
-      return $http.post('http://eggnogg:8000/token', {
-          email,
-          password
-        })
-        .then(function success(response) {
-          const token = response.data.token;
-          AuthTokenFactory.setToken(token);
-          delete response.data.token;
-          userData = response.data;
-          LocalStorageFactory.setItem('userId', response.data.id);
-          LocalStorageFactory.setItem('username', response.data.username);
-          return response;
-        }, function failure(error) {
-          return $q.reject(error);
-        });
-    }
-
-    function logout() {
-      AuthTokenFactory.deleteToken();
+      return LocalStorageFactory.removeItem(key);
     }
   }])
 
@@ -118,6 +69,54 @@ angular.module('app.services', [])
 
   .service('BlankService', [function () {
 
+  }])
+
+  .service('userService', ['$q', '$http', 'AuthTokenFactory', 'LocalStorageFactory', function userService($q, $http, AuthTokenFactory, LocalStorageFactory) {
+    const service = this;
+
+    service.makeNew = makeNew;
+    service.login = login;
+    service.logout = logout;
+    service.userData = {};
+
+    function makeNew(email, username, password) {
+      return $http.post("http://eggnogg:8000/users/", {
+          email,
+          username,
+          password
+        })
+        .then(function success(response) {
+          service.userData = response.data;
+          LocalStorageFactory.setItem('userId', response.data.id);
+          LocalStorageFactory.setItem('username', response.data.username);
+          return response.data;
+        }, function error(error) {
+          return $q.reject(error);
+        });
+    }
+
+    function login(email, password) {
+      return $http.post('http://eggnogg:8000/token', {
+          email,
+          password
+        })
+        .then(function success(response) {
+          const token = response.data.token;
+          AuthTokenFactory.setToken(token);
+          delete response.data.token;
+          console.log('token:',token);
+          service.userData = response.data;
+          LocalStorageFactory.setItem('userId', response.data.id);
+          LocalStorageFactory.setItem('username', response.data.username);
+          return response;
+        }, function failure(error) {
+          return $q.reject(error);
+        });
+    }
+
+    function logout() {
+      return AuthTokenFactory.deleteToken();
+    }
   }])
 
   .service('tokenService', ['AuthTokenFactory', '$http', function tokenService(AuthTokenFactory, $http) {

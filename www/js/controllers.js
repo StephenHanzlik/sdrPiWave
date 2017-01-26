@@ -62,10 +62,10 @@ angular.module('app.controllers', ['ionic'])
     }
   ])
 
-  .controller('loginCtrl', ['$scope', '$stateParams', '$http', '$state', 'UserFactory', 'tokenService', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+  .controller('loginCtrl', ['$scope', '$stateParams', '$http', '$state', 'userService', 'tokenService', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function ($scope, $stateParams, $http, $state, UserFactory, tokenService) {
+    function ($scope, $stateParams, $http, $state, userService, tokenService) {
       const vm = this;
       vm.login = login;
       vm.$onInit = onInit;
@@ -75,7 +75,7 @@ angular.module('app.controllers', ['ionic'])
           console.log('You are already logged in!');
           $state.go('tabsController.home');
         } else {
-          UserFactory.logout();
+          userService.logout();
           console.log('You are not logged in!');
         }
       }
@@ -97,21 +97,22 @@ angular.module('app.controllers', ['ionic'])
             addPixelsY: -40
           });
         } else {
-          UserFactory.login(vm.loginForm.email, vm.loginForm.password).then((res) => {
-            console.log('login successful:', res.data);
-            console.log('UserFactory:', UserFactory.userData);
-            vm.data = UserFactory.userData;
+          userService.login(vm.loginForm.email, vm.loginForm.password)
+            .then((res) => {
+              console.log('login successful:', res.data);
+              console.log('userService:', userService.userData);
+              vm.data = userService.userData;
 
-            $state.go('tabsController.home');
-          }, (error) => {
-            console.log('login failed:', error.data);
-            window.plugins.toast.showWithOptions({
-              message: `Login failed: ${error.data}.\n Please try again.`,
-              duration: "long",
-              position: "center",
-              addPixelsY: -40
+              $state.go('tabsController.home');
+            }, (error) => {
+              console.log('login failed:', error.data);
+              window.plugins.toast.showWithOptions({
+                message: `Login failed: ${error.data}.\n Please try again.`,
+                duration: "long",
+                position: "center",
+                addPixelsY: -40
+              });
             });
-          });
         }
 
       }
@@ -174,11 +175,11 @@ angular.module('app.controllers', ['ionic'])
       }
     }
   ])
-  .controller('signupCtrl', ['$scope', '$stateParams', '$http', '$state', 'UserFactory',
+  .controller('signupCtrl', ['$scope', '$stateParams', '$http', '$state', 'userService',
     // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function ($scope, $stateParams, $http, $state, UserFactory) {
+    function ($scope, $stateParams, $http, $state, userService) {
 
       const vm = this;
       vm.signup = signup;
@@ -207,14 +208,18 @@ angular.module('app.controllers', ['ionic'])
             addPixelsY: -40
           });
         } else {
-          UserFactory.makeNew(vm.signupForm.email, vm.signupForm.username, vm.signupForm.password)
+          vm.password = vm.signupForm.password;
+          userService.makeNew(vm.signupForm.email, vm.signupForm.username, vm.signupForm.password)
             .then(function success(userData) {
               vm.data = userData;
-              console.log(Object.keys(userData));
-              UserFactory.login(UserFactory.userData);
-              $state.go('tabsController.profile');
+              vm.data.password = vm.password;
+              userService.login(vm.data.email, vm.data.password)
+                .then((res) => {
+                  $state.go('tabsController.profile');
+                }, (error) => {
+                  $state.go('tabsController.login');
+                });
             }, function error(error) {
-              console.log('error creating user');
               window.plugins.toast.showWithOptions({
                 message: `Failed to create user: ${error.data}.\nPlease try again.`,
                 duration: "long",
