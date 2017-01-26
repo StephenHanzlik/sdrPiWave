@@ -114,7 +114,7 @@ angular.module('app.controllers', ['ionic'])
       vm.showModal = true;
 
       function testNetwork() {
-        $http.jsonp("http://eggnogg:8000/")
+        $http.get("http://eggnogg:8000/")
           .then((response) => {
             console.log('Server success:', response);
             vm.message = ["Thank you for connecting to ", ""];
