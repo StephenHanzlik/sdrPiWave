@@ -10,7 +10,9 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
 .config(function($ionicConfigProvider, $sceDelegateProvider){
 
 
-  $sceDelegateProvider.resourceUrlWhitelist([ 'self','*://www.youtube.com/**', '*://player.vimeo.com/video/**']);
+  $sceDelegateProvider.resourceUrlWhitelist([ 'self','*://www.youtube.com/**', '*://player.vimeo.com/video/**',
+  'http://eggnogg:8000/**'
+]);
 
 })
 
