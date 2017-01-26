@@ -59,10 +59,10 @@ angular.module('app.controllers', ['ionic'])
     }
   ])
 
-  .controller('loginCtrl', ['$scope', '$stateParams', '$http', '$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+  .controller('loginCtrl', ['$scope', '$stateParams', '$http', '$state', 'userFactory' // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function($scope, $stateParams, $http, $state) {
+    function($scope, $stateParams, $http, $state, userFactory) {
       const vm = this;
       vm.login = login;
 
@@ -83,6 +83,7 @@ angular.module('app.controllers', ['ionic'])
             addPixelsY: -40
           });
         } else {
+          userFactory.login(vm.loginForm.email, vm.loginForm.password);
           $http.post("http://eggnogg:8000/token/", vm.loginForm)
             .success(function(response) {
               alert("success post to http://eggnogg:8000/token/");

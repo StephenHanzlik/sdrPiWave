@@ -5,34 +5,55 @@ angular.module('app.services', [])
 
   }])
 
-  .factory('AuthTokenFactory', ['$window', function AuthTokenFactory($window) {
-    'use strict';
-    var store = $window.localStorage;
-    var key = 'auth-token';
+  .factory('LocalStorageFactory', ['$window', function LocalStorageFactory($window) {
+    const store = $window.localStorage;
 
     return {
-      getToken: getToken,
-      setToken: setToken
+      setItem,
+      getItem,
+      removeItem
+    };
+
+    function setItem(key, value) {
+      store.setItem(key, value);
+    }
+
+    function getItem(key) {
+      store.getItem(key);
+    }
+
+    function removeItem(key) {
+      store.removeItem(key);
+    }
+  }])
+
+  .factory('AuthTokenFactory', ['LocalStorageFactory', function AuthTokenFactory(LocalStorageFactory) {
+    const key = 'auth-token';
+
+    return {
+      getToken,
+      setToken,
+      deleteToken
     };
 
     function getToken() {
-      return store.getItem(key);
+      return LocalStorageFactory.getItem(key);
     }
 
     function setToken(token) {
-      if (token) {
-        store.setItem(key, token);
-      } else {
-        store.removeItem(key);
-      }
+      LocalStorageFactory.setItem(key, token);
+    }
+
+    function deleteToken() {
+      LocalStorageFactory.removeItem(key);
     }
   }])
 
   .factory('UserFactory', ['$http', 'AuthTokenFactory', function UserFactory($http, AuthTokenFactory) {
-    'use strict';
+
     return {
-      login: login,
-      logout: logout
+      login,
+      logout
     };
 
     function login(username, password) {
@@ -40,13 +61,17 @@ angular.module('app.services', [])
         username: username,
         password: password
       }).then(function success(response) {
-        AuthTokenFactory.setToken(response.data.token);
-        return response;
+        const token=response.data.token;
+        AuthTokenFactory.setToken(token);
+        delete response.data.token;
+        return response.data;
+      }, function failure(error) {
+        return error;
       });
     }
 
     function logout() {
-      AuthTokenFactory.setToken();
+      AuthTokenFactory.deleteToken();
     }
   }])
 
@@ -71,19 +96,23 @@ angular.module('app.services', [])
   }])
 
   .service('tokenService', ['AuthTokenFactory', '$http', function tokenService(AuthTokenFactory, $http) {
-    this.checkToken = checkToken;
 
-    function checkToken () {
+    const service = this;
+
+    service.checkToken = checkToken;
+
+    function checkToken() {
       const currentToken = AuthTokenFactory.getToken();
       if (currentToken) {
         $http.get('eggnogg:8000/token')
-          .then((tokenValid)=>{
-            if (tokenValid===true) {
+          .then((tokenValid) => {
+            if (tokenValid === true) {
+              AuthTokenFactory.setToken(currentToken);
               return true;
             } else {
               return false;
             }
-          }, (error)=>{
+          }, (error) => {
             console.log(error);
             return false;
           });
@@ -96,10 +125,10 @@ angular.module('app.services', [])
 
     // once getFiles has been called, access the files object via filesService.files //
 
-    let service = this;
+    const service = this;
 
-    this.getFiles = getFiles;
-    this.parseIcons = parseIcons;
+    service.getFiles = getFiles;
+    service.parseIcons = parseIcons;
 
     function getFiles() {
       return $http.get("http://eggnogg:8000/uploads/")
