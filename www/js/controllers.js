@@ -16,12 +16,22 @@ angular.module('app.controllers', ['ionic'])
     function($scope, $stateParams, filesService) {
       const vm = this;
       vm.$onInit = onInit;
+      vm.playback = playback;
+      vm.returnPath = returnPath;
 
       function onInit() {
         filesService.getFiles()
           .then((res) => {
             vm.data = res.data;
           });
+      }
+      function playback(post){
+        post.showMedia = true;
+        vm.watchPost = "http://eggnogg:8000/" + post.category;
+      }
+      function returnPath(post){
+        vm.watchPost = "http://eggnogg:8000/" + post.category;
+        return vm.watchPost;
       }
     }
   ])
@@ -121,7 +131,7 @@ angular.module('app.controllers', ['ionic'])
       vm.showModal = true;
 
       function testNetwork() {
-        $http.get("http://eggnogg:8000/")
+        return $http.get("http://eggnogg:8000/")
           .then((response) => {
             console.log("response " + response);
             vm.message = ["Thank you for connecting to ", ""];
@@ -131,16 +141,16 @@ angular.module('app.controllers', ['ionic'])
           }, (error) => {
             console.log("error " + error);
             vm.message = ["Please ensure your phone is connected to ", " before continuing."];
-            vm.showModal = false;
+            vm.showModal = true;
             toggleModal();
           });
       }
 
       function toggleModal() {
         if (vm.showModal) {
-          vm.modal.show();
+          return vm.modal.show();
         } else {
-          vm.modal.hide();
+          return vm.modal.remove();
         }
       }
 
