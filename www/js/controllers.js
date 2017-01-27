@@ -127,23 +127,6 @@ angular.module('app.controllers', ['ionic'])
                 position: "center",
                 addPixelsY: -40
               });
-              // =======
-              //           $http.post("http://eggnogg:8000/token/", vm.loginForm)
-              //             .success(function(response) {
-              //               alert("success post to http://eggnogg:8000/token/");
-              //               vm.data = response;
-              //               var userId = vm.data.id;
-              //               var token = vm.data.token;
-              //               var username = vm.data.username;
-              //               window.localStorage.setItem('user', userId);
-              //               window.localStorage.setItem('token', token);
-              //               window.localStorage.setItem('username', username);
-              //               $state.go('tabsController.home');
-              //             })
-              //             .error(function(response) {
-              //               alert("error post to http://eggnogg:8000/token/");
-              //               alert(response);
-              // >>>>>>> d1b5db709d1b4f872ad8256086c5dba91560db13
             });
         }
 
@@ -259,17 +242,6 @@ angular.module('app.controllers', ['ionic'])
                 position: "center",
                 addPixelsY: -40
               });
-              // =======
-              //           $http.post("http://eggnogg:8000/users/", vm.signupForm)
-              //             .success(function(response) {
-              //               alert("Created a profile, please log in");
-              //               vm.data = response;
-              //               $state.go('login');
-              //             })
-              //             .error(function(response) {
-              //               alert(response)
-              //               alert("error post to http://eggnogg:8000/token/");
-              // >>>>>>> d1b5db709d1b4f872ad8256086c5dba91560db13
             });
         }
       }
