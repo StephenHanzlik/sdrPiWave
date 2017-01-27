@@ -2,11 +2,16 @@
   <ion-content padding="true" class="has-header">
     <ion-list id="home-list4">
       <ion-item class="item-thumbnail-left item-icon-right" id="home-list-item2" ng-repeat="post in $ctrl.data">
+        <img src="../img/owl-1.svg" alt="avatar img">
         <h2>{{ post.name }}</h2>
         <p>{{ post.username }}</p>
         <i class="icon {{ post.icon }}"></i>
-        <ion-option-button class="button-royal">DOWNLOAD</ion-option-button>
-        <ion-option-button class="button-energized">VIEW</ion-option-button>
+        <a href="{{$ctrl.returnPath(post)}}" download>Download</a>
+        <!-- <ion-option-button class="button-royal">DOWNLOAD</ion-option-button> -->
+        <ion-option-button class="button-energized" ng-click="$ctrl.playback(post)">VIEW</ion-option-button>
+        <div ng-if="post.showMedia" class="fullscreenModal transparent fullscreen-player">
+          <video ng-src="{{$ctrl.returnPath(post)}}" class="centerme" controls="controls" autoplay></video>
+        </div>
       </ion-item>
     </ion-list>
   </ion-content>
