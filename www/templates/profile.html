@@ -32,8 +32,10 @@
             <h2>{{ post.name }}</h2>
             <p>{{ post.username }}</p>
             <i class="icon {{ post.icon }}"></i>
-            <ion-option-button class="button-royal">DOWNLOAD</ion-option-button>
-            <ion-option-button class="button-energized">VIEW</ion-option-button>
+            <ion-option-button class="button-energized" ng-click="$ctrl.playback(post)">VIEW</ion-option-button>
+            <div ng-if="post.showMedia" >
+              <video ng-src="{{$ctrl.returnPath(post)}}" class="centerme fullscreenModal fullscreen-player" controls="controls" autoplay></video>
+            </div>
           </ion-item>
         </ion-list>
       </ion-item>
