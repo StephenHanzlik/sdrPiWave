@@ -87,8 +87,9 @@
         <div class="spacer" data-componentid="spacer4" style="width: 268px; height: 27px;"></div>
         <button id="menu-button1" style="font-weight:600;color:#FFFFFF;border-radius:100px 100px 100px 100px;" class="button button-calm button-large button-block icon ion-android-wifi" data-componentid="button1">Connect to Pi</button>
         <div class="spacer" data-componentid="spacer6" style="width: 268px; height: 4px;"></div> -->
-        <button id="menu-button7" style="border-radius:100px 100px 100px 100px;" class="button button-assertive  button-block" data-componentid="button7" ng-click="$ctrl.logout()" ng-enabled="{{$ctrl.loginStatus || false}}">Logout</button>
         <button id="menu-button7" style="border-radius:100px 100px 100px 100px;" class="button button-assertive  button-block" data-componentid="button7" ng-click="$ctrl.login()" ng-disabled="{{$ctrl.loginStatus || false}}">Login</button>
+        <div class="spacer" data-componentid="spacer7" style="width: 268px; height: 7px;"></div>
+        <button id="menu-button7" style="border-radius:100px 100px 100px 100px;" class="button button-assertive  button-block" data-componentid="button7" ng-click="$ctrl.logout()" ng-enabled="{{$ctrl.loginStatus || false}}">Logout</button>
       </ion-content>
     </ion-side-menu>
   </ion-side-menus>
