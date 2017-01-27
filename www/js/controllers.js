@@ -18,6 +18,7 @@ angular.module('app.controllers', ['ionic'])
       vm.$onInit = onInit;
       vm.playback = playback;
       vm.returnPath = returnPath;
+
       function onInit() {
         filesService.getFiles()
           .then((res) => {
@@ -46,11 +47,19 @@ angular.module('app.controllers', ['ionic'])
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
     function($scope, $stateParams, filesService) {
       const vm = this;
-      vm.$onInit = search;
+      vm.$onInit = onInit;
 
-      function search() {
-        vm.data = filesService.files;
-        // return filesService.service.files;
+      function onInit() {
+        if (filesService.files) {
+          vm.data = filesService.files;
+          console.log('initialize search:', vm.data);
+        } else {
+          filesService.getFiles((files) => {
+            vm.data = files;
+            console.log('initialize search:', vm.data);
+          });
+        }
+        // return filesService.files;
       }
     }
   ])

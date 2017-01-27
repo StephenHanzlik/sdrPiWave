@@ -3,14 +3,14 @@ body {
 }
 
 .modal{
-  /*top: 20% !important;
+  top: 20% !important;
   right: 20% !important;
   bottom: 20% !important;
   left: 20% !important;
   overflow: hidden !important;
   min-height: 240px !important;
   max-height: 260px !important;
-  width: 60% !important;*/
+  width: 60% !important;
 }
 
 .fullscreenModal{
@@ -19,6 +19,11 @@ body {
  left: 0 !important;
  right: 0 !important;
  width: 0.01% !important;
+}
+
+.avatar-list{
+  width: 50px !important;
+  margin-left: 20px !important;
 }
 
 img{
