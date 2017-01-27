@@ -79,35 +79,34 @@ angular.module('app.controllers', ['ionic'])
       }
 
       function fileUpload(event) {
-        $ionicPlatform.ready(()=>{
-          let file=event.target.files[0];
-          console.log('file',file);
-          // Destination URL
-          var url = "http://eggnogg:8000/uploads/";
+        let file = event.target.files[0];
+        console.log('file', file);
+        // Destination URL
+        var url = "http://eggnogg:8000/uploads/";
 
-          //File for Upload
-          // var targetPath = cordova.file.dataDirectory + event.target.files[0].name;
-          var targetPath = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA
+        //File for Upload
+        // var targetPath = cordova.file.dataDirectory + event.target.files[0].name;
+        var targetPath = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA
 AAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO
 9TXL0Y4OHwAAAABJRU5ErkJggg==`;
-          alert(targetPath);
+        alert(targetPath);
 
-          // File name only
-          // var filename = targetPath.split("/").pop();
-          var fileName='smallDot';
-          alert(fileName);
+        // File name only
+        // var filename = targetPath.split("/").pop();
+        var fileName = 'smallDot';
+        alert(fileName);
 
-          var options = {
-            fileKey: "file",
-            fileName: fileName,
-            chunkedMode: true,
-            mimeType: file.type,
-            // params: {
-            //   'directory': 'upload',
-            //   'fileName': filename
-            // }
-          };
-
+        var options = {
+          fileKey: "file",
+          fileName: fileName,
+          chunkedMode: true,
+          mimeType: file.type,
+          // params: {
+          //   'directory': 'upload',
+          //   'fileName': filename
+          // }
+        };
+        $ionicPlatform.ready(() => {
           $cordovaFileTransfer.upload(url, targetPath, options).then(function (result) {
             alert("SUCCESS: " + JSON.stringify(result.response));
           }, function (err) {
