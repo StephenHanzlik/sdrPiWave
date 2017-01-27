@@ -1,9 +1,13 @@
 <div ng-controller="landingCtrl as $ctrl">
-  <ion-view title="Landing" id="page6">
+  <ion-view id="page6">
     <ion-content padding="true" class="has-header">
-      <h1 id="landing-heading1" style="color:#000000;text-align:center;">WELCOME to SDR-Pi</h1>
+      <div class="spacer" style="height: 100px;"></div>
+      <h2 id="landing-heading1" style="color:#000000;text-align:center;">WELCOME to SDR-Pi</h2>
       <div class="spacer" style="height: 100px;"></div>
       <a ui-sref="login" id="landing-button4" class="button button-positive  button-block">Login!</a>
+      <div class="spacer" style="height: 50px;"></div>
+      <h2>PiWave</h2>
+        <p>  PiWave gives you the ability to download, stream, and upload files to our remote server. The server is run on a Raspberry Pi and it never connects to the internet. This allows for complete security from Big Brother. The first step is to login if you are already a user or signup for an account on the next page.</p>
     </ion-content>
   </ion-view>
   <script id="wifi-modal.html" type="text/ng-template">

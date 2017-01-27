@@ -18,7 +18,6 @@ angular.module('app.controllers', ['ionic'])
       vm.$onInit = onInit;
       vm.playback = playback;
       vm.returnPath = returnPath;
-
       function onInit() {
         filesService.getFiles()
           .then((res) => {
@@ -27,12 +26,17 @@ angular.module('app.controllers', ['ionic'])
       }
 
       function playback(post) {
-        post.showMedia = true;
-        vm.watchPost = "http://eggnogg:8000/" + post.category;
+        if (!post.showMedia) {
+          post.showMedia = true;
+          console.log(post.file_name);
+          vm.watchPost = "http://eggnogg:8000/uploads/" + post.file_name;
+        } else {
+          post.showMedia = false;
+        }
       }
 
       function returnPath(post) {
-        vm.watchPost = "http://eggnogg:8000/" + post.category;
+        vm.watchPost = "http://eggnogg:8000/uploads/" + post.file_name;
         return vm.watchPost;
       }
     }
@@ -54,7 +58,7 @@ angular.module('app.controllers', ['ionic'])
   .controller('profileCtrl', ['$scope', '$stateParams', '$http', 'filesService', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function ($scope, $stateParams, $http, filesService) {
+    function($scope, $stateParams, $http, filesService) {
       const vm = this;
       vm.$onInit = onInit;
       vm.profileFilter = localStorage.getItem("username");
@@ -63,7 +67,7 @@ angular.module('app.controllers', ['ionic'])
         var userId = localStorage.getItem("userId");
         vm.uploadData = filesService.files;
         return $http.get(`http://eggnogg:8000/users/${userId}`)
-          .success(function (userProfile) {
+          .success(function(userProfile) {
             vm.data = userProfile;
           })
           .error(function(data) {
@@ -76,7 +80,7 @@ angular.module('app.controllers', ['ionic'])
   .controller('loginCtrl', ['$scope', '$stateParams', '$http', '$state', 'userService', 'tokenService', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function ($scope, $stateParams, $http, $state, userService, tokenService) {
+    function($scope, $stateParams, $http, $state, userService, tokenService) {
       const vm = this;
       vm.login = login;
       vm.$onInit = onInit;
@@ -134,7 +138,7 @@ angular.module('app.controllers', ['ionic'])
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
 
-    function ($scope, $stateParams, $ionicModal, $http, $timeout, networkService) {
+    function($scope, $stateParams, $ionicModal, $http, $timeout, networkService) {
       const vm = this;
 
       vm.$onInit = onInit;
@@ -179,7 +183,7 @@ angular.module('app.controllers', ['ionic'])
         $ionicModal.fromTemplateUrl('wifi-modal.html', {
           scope: $scope,
           animation: 'slide-in-up'
-        }).then(function (modal) {
+        }).then(function(modal) {
           vm.modal = modal;
         });
         testNetwork();
@@ -190,7 +194,7 @@ angular.module('app.controllers', ['ionic'])
     // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function ($scope, $stateParams, $http, $state, userService) {
+    function($scope, $stateParams, $http, $state, userService) {
 
       const vm = this;
       vm.signup = signup;
@@ -226,7 +230,7 @@ angular.module('app.controllers', ['ionic'])
               vm.data.password = vm.password;
               userService.login(vm.data.email, vm.data.password)
                 .then((res) => {
-                  vm.data=res;
+                  vm.data = res;
                   $state.go('tabsController.profile');
                 }, (error) => {
                   $state.go('tabsController.login');
