@@ -77,19 +77,20 @@
       </ion-nav-bar>
       <ion-nav-view></ion-nav-view>
     </ion-side-menu-content>
-    <!-- <ion-side-menu side="left" id="side-menu21"> -->
-      <!-- <ion-header-bar class="bar-stable">
+    <ion-side-menu side="left" id="side-menu21">
+      <ion-header-bar class="bar-stable">
         <div class="title">Menu</div>
-      </ion-header-bar> -->
-      <!-- <ion-content ng-controller="menuCtrl" padding="false" class="side-menu-left has-header ">
+      </ion-header-bar>
+      <ion-content ng-controller="menuCtrl as $ctrl" padding="false" class="side-menu-left has-header ">
         <div class="spacer" data-componentid="spacer7" style="width: 268px; height: 7px;"></div>
-        <h1 id="menu-heading3" style="color:#000000;text-align:center;" data-componentid="heading3">WIFI : OFF</h1>
+        <!-- <h1 id="menu-heading3" style="color:#000000;text-align:center;" data-componentid="heading3">WIFI : OFF</h1>
         <div class="spacer" data-componentid="spacer4" style="width: 268px; height: 27px;"></div>
         <button id="menu-button1" style="font-weight:600;color:#FFFFFF;border-radius:100px 100px 100px 100px;" class="button button-calm button-large button-block icon ion-android-wifi" data-componentid="button1">Connect to Pi</button>
-        <div class="spacer" data-componentid="spacer6" style="width: 268px; height: 4px;"></div>
-        <button id="menu-button7" style="border-radius:100px 100px 100px 100px;" class="button button-assertive  button-block" data-componentid="button7">Logout</button>
-      </ion-content> -->
-    <!-- </ion-side-menu> -->
+        <div class="spacer" data-componentid="spacer6" style="width: 268px; height: 4px;"></div> -->
+        <button id="menu-button7" style="border-radius:100px 100px 100px 100px;" class="button button-assertive  button-block" data-componentid="button7" ng-click="$ctrl.logout()" ng-disabled="{{$ctrl.loginStatus}}">Logout</button>
+        <button id="menu-button7" style="border-radius:100px 100px 100px 100px;" class="button button-assertive  button-block" data-componentid="button7" ng-click="$ctrl.login()" ng-disabled="{{!$ctrl.loginStatus}}">Login</button>
+      </ion-content>
+    </ion-side-menu>
   </ion-side-menus>
 </div>
   </body>

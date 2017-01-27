@@ -2,7 +2,7 @@
   <ion-content padding="true" class="has-header">
     <ion-list id="profile-list5">
       <ion-item class="item-avatar" id="profile-list-item3">
-        <img src="http://eggnogg:8000/{{$ctrl.data.avatar_path}}" alt="avatar">
+        <img ng-src="http://eggnogg:8000/{{$ctrl.data.avatar_path}}" alt="avatar">
         <h2 ng-model="profileUploads">{{ $ctrl.data.username }}</h2>
         <p>{{ $ctrl.data.email }}</p>
       </ion-item>

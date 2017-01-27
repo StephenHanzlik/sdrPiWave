@@ -76,6 +76,7 @@ angular.module('app.services', [])
     service.login = login;
     service.logout = logout;
     service.userData = {};
+    service.loggedIn=false;
 
     function makeNew(email, username, password) {
       return $http.post("http://eggnogg:8000/users/", {
@@ -103,6 +104,7 @@ angular.module('app.services', [])
           AuthTokenFactory.setToken(token);
           delete response.data.token;
           console.log('token:', token);
+          service.loggedIn=true;
           service.userData = response.data;
           LocalStorageFactory.setItem('userId', response.data.id);
           LocalStorageFactory.setItem('username', response.data.username);
@@ -113,6 +115,7 @@ angular.module('app.services', [])
     }
 
     function logout() {
+      service.loggedIn=false;
       return AuthTokenFactory.deleteToken();
     }
   }])
