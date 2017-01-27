@@ -2,7 +2,8 @@
   <ion-content padding="true" class="has-header">
     <ion-list id="home-list4">
       <ion-item class="item-thumbnail-left item-icon-right" id="home-list-item2" ng-repeat="post in $ctrl.data">
-        <img src="http://eggnogg:8000/uploads/owl-1.svg" alt="avatar img" class="avatar-list">
+        <img ng-src="http://eggnogg:8000/{{$ctrl.userdata.avatar_path}}" alt="avatar img" class="avatar-list">
+        <!-- src="http://eggnogg:8000/uploads/owl-1.svg" -->
         <h2>{{ post.name }}</h2>
         <p>{{ post.username }}</p>
         <i class="icon {{ post.icon }}"></i>
