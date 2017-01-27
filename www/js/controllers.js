@@ -27,12 +27,17 @@ angular.module('app.controllers', ['ionic'])
       }
 
       function playback(post) {
-        post.showMedia = true;
-        vm.watchPost = "http://eggnogg:8000/" + post.category;
+        if (!post.showMedia) {
+          post.showMedia = true;
+          console.log(post.file_name);
+          vm.watchPost = "http://eggnogg:8000/uploads/" + post.file_name;
+        } else {
+          post.showMedia = false;
+        }
       }
 
       function returnPath(post) {
-        vm.watchPost = "http://eggnogg:8000/" + post.category;
+        vm.watchPost = "http://eggnogg:8000/uploads/" + post.file_name;
         return vm.watchPost;
       }
     }
@@ -51,17 +56,17 @@ angular.module('app.controllers', ['ionic'])
     }
   ])
 
-  .controller('profileCtrl', ['$scope', '$stateParams', '$http', 'filesService', 'LocalStorageFactory', '$cordovaFileTransfer', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+  .controller('profileCtrl', ['$scope', '$stateParams', '$http', 'filesService', 'LocalStorageFactory', '$cordovaFile', '$cordovaFileTransfer', '$ionicPlatform', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function ($scope, $stateParams, $http, filesService, LocalStorageFactory, $cordovaFileTransfer) {
+    function ($scope, $stateParams, $http, filesService, LocalStorageFactory, $cordovaFile, $cordovaFileTransfer, $ionicPlatform) {
       const vm = this;
       vm.$onInit = onInit;
       vm.fileUpload = fileUpload;
       vm.profileFilter = LocalStorageFactory.getItem("username");
 
       function onInit() {
-        vm.upload=false;
+        vm.upload = false;
         var userId = localStorage.getItem("userId");
         vm.uploadData = filesService.files;
         return $http.get(`http://eggnogg:8000/users/${userId}`)
@@ -74,36 +79,44 @@ angular.module('app.controllers', ['ionic'])
       }
 
       function fileUpload(event) {
+        $ionicPlatform.ready(()=>{
+          let file=event.target.files[0];
+          console.log('file',file);
+          // Destination URL
+          var url = "http://eggnogg:8000/uploads/";
 
-        console.log(event.target.files[0]);
-        // Destination URL
-        var url = "http://eggnogg:8000/uploads/";
+          //File for Upload
+          // var targetPath = cordova.file.dataDirectory + event.target.files[0].name;
+          var targetPath = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA
+AAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO
+9TXL0Y4OHwAAAABJRU5ErkJggg==`;
+          alert(targetPath);
 
-        //File for Upload
-        var targetPath = event.target.files[0].fullpath;
+          // File name only
+          // var filename = targetPath.split("/").pop();
+          var fileName='smallDot';
+          alert(fileName);
 
-        // File name only
-        var filename = targetPath.split("/").pop();
+          var options = {
+            fileKey: "file",
+            fileName: fileName,
+            chunkedMode: true,
+            mimeType: file.type,
+            // params: {
+            //   'directory': 'upload',
+            //   'fileName': filename
+            // }
+          };
 
-        var options = {
-          fileKey: "file",
-          fileName: filename,
-          chunkedMode: false,
-          mimeType: "image/jpg",
-          params: {
-            'directory': 'upload',
-            'fileName': filename
-          }
-        };
-
-        $cordovaFileTransfer.upload(url, targetPath, options)
-          .then(function (result) {
-            console.log("SUCCESS: " + JSON.stringify(result.response));
+          $cordovaFileTransfer.upload(url, targetPath, options).then(function (result) {
+            alert("SUCCESS: " + JSON.stringify(result.response));
           }, function (err) {
-            console.log("ERROR: " + JSON.stringify(err));
+            alert("ERROR: " + JSON.stringify(err));
           }, function (progress) {
             // PROGRESS HANDLING GOES HERE
           });
+        });
+
       }
     }
   ])
@@ -117,13 +130,14 @@ angular.module('app.controllers', ['ionic'])
       vm.$onInit = onInit;
 
       function onInit() {
-        if (tokenService.checkToken()) {
-          console.log('You are already logged in!');
-          $state.go('tabsController.home');
-        } else {
-          userService.logout();
-          console.log('You are not logged in!');
-        }
+        // tokenService.checkToken()
+        //   .then(() => {
+        //     console.log('You are already logged in!');
+        //     $state.go('tabsController.home');
+        //   }, () => {
+        //     userService.logout();
+        //     console.log('You are not logged in!');
+        //   });
       }
 
       function login() {
@@ -238,6 +252,7 @@ angular.module('app.controllers', ['ionic'])
       }
     }
   ])
+
   .controller('uploadCtrl', ['$scope', '$stateParams', '$http',
     function ($scope, $stateParams, $http, fileURL) {
       const vm = this;

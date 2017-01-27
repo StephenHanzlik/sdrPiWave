@@ -102,7 +102,7 @@ angular.module('app.services', [])
           const token = response.data.token;
           AuthTokenFactory.setToken(token);
           delete response.data.token;
-          console.log('token:',token);
+          console.log('token:', token);
           service.userData = response.data;
           LocalStorageFactory.setItem('userId', response.data.id);
           LocalStorageFactory.setItem('username', response.data.username);
@@ -117,30 +117,32 @@ angular.module('app.services', [])
     }
   }])
 
-  .service('tokenService', ['AuthTokenFactory', '$http', function tokenService(AuthTokenFactory, $http) {
+  .service('tokenService', ['AuthTokenFactory', '$http', '$q', function tokenService(AuthTokenFactory, $http, $q) {
 
     const service = this;
 
     service.checkToken = checkToken;
 
     function checkToken() {
-      const currentToken = AuthTokenFactory.getToken();
-      if (currentToken) {
-        $http.get('eggnogg:8000/token')
-          .then((tokenValid) => {
-            if (tokenValid === true) {
-              console.log('token valid! keeping it.');
-              return true;
-            } else {
-              console.log('token invalid! removing it.');
-              AuthTokenFactory.deleteToken();
-              return false;
-            }
-          }, (error) => {
-            console.log('tokenCheck error:', error);
-            return false;
-          });
-      }
+      return AuthTokenFactory.getToken().then((currentToken) => {
+        if (currentToken) {
+          return $http.get('eggnogg:8000/token')
+            .then((tokenValid) => {
+              if (tokenValid === true) {
+                console.log('token valid! keeping it.');
+                return true;
+              } else {
+                console.log('token invalid! removing it.');
+                AuthTokenFactory.deleteToken();
+                return false;
+              }
+            }, (error) => {
+              console.log('tokenCheck error:', error);
+              return $q.reject(error);
+            });
+        }
+      });
+
     }
 
   }])
@@ -187,7 +189,7 @@ angular.module('app.services', [])
       let type, filename, post;
       for (let key in files) {
         post = files[key];
-        filename = post.path;
+        filename = post.file_name;
         type = filename.substring(filename.length - 4).toLowerCase();
         switch (type) {
         case ('.mp3'):
