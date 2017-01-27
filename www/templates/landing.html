@@ -13,7 +13,7 @@
         </div>
         <div class="item item-text-wrap">
           <h2 style="text-align:center;">{{$ctrl.message[0]}}<div><i class="icon ion-wifi"></i>{{$ctrl.wifiName}}<i class="icon ion-wifi"></i></div>{{$ctrl.message[1]}}</h2>
-          <button class="button button-block button-calm" ng-click="$ctrl.testNetwork()">{{$ctrl.buttonMessage}}</button>
+          <button ng-if="$ctrl.showModal" class="button button-block button-calm" ng-click="$ctrl.testNetwork()">{{$ctrl.buttonMessage}}</button>
         </div>
         <div class="item item-divider">
         </div>

@@ -2,21 +2,14 @@ body {
   cursor: url('http://ionicframework.com/img/finger.png'), auto;
 }
 
-.modal{
-  top: 20% !important;
-  right: 20% !important;
-  bottom: 20% !important;
-  left: 20% !important;
-  overflow: hidden !important;
-  min-height: 240px !important;
-  max-height: 260px !important;
-  width: 60% !important;
+.modal {
+  background: transparent !important;
 }
 
-.fullscreenModal{
- top: 0 ;
- bottom: 0 ;
- left: 0 ;
- right: 0 ;
- width: 100% ;
+.fullscreenModal {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
 }
