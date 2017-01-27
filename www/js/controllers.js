@@ -27,17 +27,12 @@ angular.module('app.controllers', ['ionic'])
       }
 
       function playback(post) {
-        if (!post.showMedia) {
-          post.showMedia = true;
-          console.log(post.file_name);
-          vm.watchPost = "http://eggnogg:8000/uploads/" + post.file_name;
-        } else {
-          post.showMedia = false;
-        }
+        post.showMedia = true;
+        vm.watchPost = "http://eggnogg:8000/" + post.category;
       }
 
       function returnPath(post) {
-        vm.watchPost = "http://eggnogg:8000/uploads/" + post.file_name;
+        vm.watchPost = "http://eggnogg:8000/" + post.category;
         return vm.watchPost;
       }
     }
