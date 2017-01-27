@@ -28,7 +28,7 @@
         <ion-item>
         <ion-list id="profile">
           <ion-item class="item-thumbnail-left item-icon-right" id="profile-list" ng-repeat="post in $ctrl.uploadData | filter:{username: $ctrl.profileFilter}">
-            <img src="http://eggnogg:8000/uploads/owl-1.svg" alt="avatar img" class="avatar-list">
+            <img ng-src="http://eggnogg:8000/{{$ctrl.data.avatar_path}}" alt="avatar img" class="avatar-list">
             <h2>{{ post.name }}</h2>
             <p>{{ post.username }}</p>
             <i class="icon {{ post.icon }}"></i>

@@ -28,10 +28,10 @@ angular.module('app.controllers', ['ionic'])
     }
   ])
 
-  .controller('homeCtrl', ['$scope', '$stateParams', 'filesService', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+  .controller('homeCtrl', ['$scope', '$stateParams', 'filesService', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function($scope, $stateParams, filesService) {
+    function($scope, $stateParams, filesService, $http) {
       const vm = this;
       vm.$onInit = onInit;
       vm.playback = playback;
@@ -41,6 +41,22 @@ angular.module('app.controllers', ['ionic'])
         filesService.getFiles()
           .then((res) => {
             vm.data = res.data;
+          });
+        $http.get("http://eggnogg:8000/users")
+          .success(function(userProfile) {
+            vm.userdata = userProfile;
+            for (var t = 0; t < vm.userdata.length; t++) {
+              for (var i = 0; i < vm.data.length; i++) {
+                if (vm.data[i].username === vm.userdata[t].username) {
+                  vm.data[i].avatar_path = vm.userdata[t].avatar_path;
+                  console.log("samsies in data? " + vm.data[i].avatar_path);
+                  console.log("samsies in userdata? " + vm.userdata[t].avatar_path);
+                }
+              }
+            }
+          })
+          .error(function(data) {
+            alert(`error: ${data}`);
           });
       }
 
@@ -55,10 +71,10 @@ angular.module('app.controllers', ['ionic'])
       }
     }
   ])
-  .controller('searchCtrl', ['$scope', '$stateParams', 'filesService', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+  .controller('searchCtrl', ['$scope', '$stateParams', 'filesService', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function($scope, $stateParams, filesService) {
+    function($scope, $stateParams, filesService, $http) {
       const vm = this;
       vm.$onInit = onInit;
 
@@ -72,6 +88,22 @@ angular.module('app.controllers', ['ionic'])
             console.log('initialize search:', vm.data);
           });
         }
+        $http.get("http://eggnogg:8000/users")
+          .success(function(userProfile) {
+            vm.userdata = userProfile;
+            for (var t = 0; t < vm.userdata.length; t++) {
+              for (var i = 0; i < vm.data.length; i++) {
+                if (vm.data[i].username === vm.userdata[t].username) {
+                  vm.data[i].avatar_path = vm.userdata[t].avatar_path;
+                  console.log("samsies in data? " + vm.data[i].avatar_path);
+                  console.log("samsies in userdata? " + vm.userdata[t].avatar_path);
+                }
+              }
+            }
+          })
+          .error(function(data) {
+            alert(`error: ${data}`);
+          });
         // return filesService.files;
       }
     }
