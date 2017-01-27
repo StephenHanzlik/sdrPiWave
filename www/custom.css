@@ -22,3 +22,7 @@ body {
 img{
   height:100px;
 }
+
+.has-header{
+  background-color: rgba(155, 155, 155, 0.4);
+}
