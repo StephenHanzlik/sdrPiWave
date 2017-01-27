@@ -5,7 +5,7 @@ angular.module('app.controllers', ['ionic'])
   .controller('menuCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function($scope, $stateParams) {
+    function ($scope, $stateParams) {
 
     }
   ])
@@ -13,7 +13,7 @@ angular.module('app.controllers', ['ionic'])
   .controller('homeCtrl', ['$scope', '$stateParams', 'filesService', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function($scope, $stateParams, filesService) {
+    function ($scope, $stateParams, filesService) {
       const vm = this;
       vm.$onInit = onInit;
       vm.playback = playback;
@@ -40,7 +40,7 @@ angular.module('app.controllers', ['ionic'])
   .controller('searchCtrl', ['$scope', '$stateParams', 'filesService', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function($scope, $stateParams, filesService) {
+    function ($scope, $stateParams, filesService) {
       const vm = this;
       vm.$onInit = search;
 
@@ -51,23 +51,58 @@ angular.module('app.controllers', ['ionic'])
     }
   ])
 
-  .controller('profileCtrl', ['$scope', '$stateParams', '$http', 'filesService', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+  .controller('profileCtrl', ['$scope', '$stateParams', '$http', 'filesService', 'LocalStorageFactory', '$cordovaFileTransfer', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function ($scope, $stateParams, $http, filesService) {
+    function ($scope, $stateParams, $http, filesService, LocalStorageFactory, $cordovaFileTransfer) {
       const vm = this;
       vm.$onInit = onInit;
-      vm.profileFilter = localStorage.getItem("username");
+      vm.fileUpload = fileUpload;
+      vm.profileFilter = LocalStorageFactory.getItem("username");
 
       function onInit() {
+        vm.upload=false;
         var userId = localStorage.getItem("userId");
         vm.uploadData = filesService.files;
         return $http.get(`http://eggnogg:8000/users/${userId}`)
           .success(function (userProfile) {
             vm.data = userProfile;
           })
-          .error(function(data) {
+          .error(function (data) {
             alert(`error: ${data}`);
+          });
+      }
+
+      function fileUpload(event) {
+
+        console.log(event.target.files[0]);
+        // Destination URL
+        var url = "http://eggnogg:8000/uploads/";
+
+        //File for Upload
+        var targetPath = event.target.files[0].fullpath;
+
+        // File name only
+        var filename = targetPath.split("/").pop();
+
+        var options = {
+          fileKey: "file",
+          fileName: filename,
+          chunkedMode: false,
+          mimeType: "image/jpg",
+          params: {
+            'directory': 'upload',
+            'fileName': filename
+          }
+        };
+
+        $cordovaFileTransfer.upload(url, targetPath, options)
+          .then(function (result) {
+            console.log("SUCCESS: " + JSON.stringify(result.response));
+          }, function (err) {
+            console.log("ERROR: " + JSON.stringify(err));
+          }, function (progress) {
+            // PROGRESS HANDLING GOES HERE
           });
       }
     }
@@ -123,23 +158,23 @@ angular.module('app.controllers', ['ionic'])
                 position: "center",
                 addPixelsY: -40
               });
-// =======
-//           $http.post("http://eggnogg:8000/token/", vm.loginForm)
-//             .success(function(response) {
-//               alert("success post to http://eggnogg:8000/token/");
-//               vm.data = response;
-//               var userId = vm.data.id;
-//               var token = vm.data.token;
-//               var username = vm.data.username;
-//               window.localStorage.setItem('user', userId);
-//               window.localStorage.setItem('token', token);
-//               window.localStorage.setItem('username', username);
-//               $state.go('tabsController.home');
-//             })
-//             .error(function(response) {
-//               alert("error post to http://eggnogg:8000/token/");
-//               alert(response);
-// >>>>>>> d1b5db709d1b4f872ad8256086c5dba91560db13
+              // =======
+              //           $http.post("http://eggnogg:8000/token/", vm.loginForm)
+              //             .success(function(response) {
+              //               alert("success post to http://eggnogg:8000/token/");
+              //               vm.data = response;
+              //               var userId = vm.data.id;
+              //               var token = vm.data.token;
+              //               var username = vm.data.username;
+              //               window.localStorage.setItem('user', userId);
+              //               window.localStorage.setItem('token', token);
+              //               window.localStorage.setItem('username', username);
+              //               $state.go('tabsController.home');
+              //             })
+              //             .error(function(response) {
+              //               alert("error post to http://eggnogg:8000/token/");
+              //               alert(response);
+              // >>>>>>> d1b5db709d1b4f872ad8256086c5dba91560db13
             });
         }
 
@@ -203,6 +238,46 @@ angular.module('app.controllers', ['ionic'])
       }
     }
   ])
+  .controller('uploadCtrl', ['$scope', '$stateParams', '$http',
+    function ($scope, $stateParams, $http, fileURL) {
+      const vm = this;
+
+      //
+      // function win(r) {
+      //     console.log("Code = " + r.responseCode);
+      //     console.log("Response = " + r.response);
+      //     console.log("Sent = " + r.bytesSent);
+      // }
+      //
+      // function fail(error) {
+      //     alert("An error has occurred: Code = " + error.code);
+      //     console.log("upload error source " + error.source);
+      //     console.log("upload error target " + error.target);
+      // }
+      //
+      // var uri = encodeURI("http:eggnogg:8000/uploads");
+      //
+      // var options = new FileUploadOptions();
+      // options.fileKey="file";
+      // options.fileName=fileURL.substr(fileURL.lastIndexOf('/')+1);
+      // options.mimeType="text/plain";
+      //
+      // var headers={'headerParam':'headerValue'};
+      //
+      // options.headers = headers;
+      //
+      // var ft = new FileTransfer();
+      // ft.onprogress = function(progressEvent) {
+      //     if (progressEvent.lengthComputable) {
+      //         loadingStatus.setPercentage(progressEvent.loaded / progressEvent.total);
+      //     } else {
+      //         loadingStatus.increment();
+      //     }
+      // };
+      // ft.upload(fileURL, uri, win, fail, options);
+    }
+  ])
+
   .controller('signupCtrl', ['$scope', '$stateParams', '$http', '$state', 'userService',
     // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
     // You can include any angular dependencies as parameters for this function
@@ -243,7 +318,7 @@ angular.module('app.controllers', ['ionic'])
               vm.data.password = vm.password;
               userService.login(vm.data.email, vm.data.password)
                 .then((res) => {
-                  vm.data=res;
+                  vm.data = res;
                   $state.go('tabsController.profile');
                 }, (error) => {
                   $state.go('tabsController.login');
@@ -255,17 +330,17 @@ angular.module('app.controllers', ['ionic'])
                 position: "center",
                 addPixelsY: -40
               });
-// =======
-//           $http.post("http://eggnogg:8000/users/", vm.signupForm)
-//             .success(function(response) {
-//               alert("Created a profile, please log in");
-//               vm.data = response;
-//               $state.go('login');
-//             })
-//             .error(function(response) {
-//               alert(response)
-//               alert("error post to http://eggnogg:8000/token/");
-// >>>>>>> d1b5db709d1b4f872ad8256086c5dba91560db13
+              // =======
+              //           $http.post("http://eggnogg:8000/users/", vm.signupForm)
+              //             .success(function(response) {
+              //               alert("Created a profile, please log in");
+              //               vm.data = response;
+              //               $state.go('login');
+              //             })
+              //             .error(function(response) {
+              //               alert(response)
+              //               alert("error post to http://eggnogg:8000/token/");
+              // >>>>>>> d1b5db709d1b4f872ad8256086c5dba91560db13
             });
         }
       }
