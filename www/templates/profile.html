@@ -26,16 +26,19 @@
           <ion-option-button class="button-calm">NEW UPLOAD</ion-option-button>
         </ion-item>
         <ion-item>
-        <ion-list id="profile">
-          <ion-item class="item-thumbnail-left item-icon-right" id="profile-list" ng-repeat="post in $ctrl.uploadData | filter:{username: $ctrl.profileFilter}">
-            <img ng-src="http://eggnogg:8000/{{$ctrl.data.avatar_path}}" alt="avatar img" class="avatar-list">
-            <h2>{{ post.name }}</h2>
-            <p>{{ post.username }}</p>
-            <i class="icon {{ post.icon }}"></i>
-            <ion-option-button class="button-energized">VIEW</ion-option-button>
-          </ion-item>
-        </ion-list>
-      </ion-item>
+          <ion-list id="profile">
+            <ion-item class="item-thumbnail-left item-icon-right" id="profile-list" ng-repeat="post in $ctrl.uploadData | filter:{username: $ctrl.profileFilter}">
+              <img ng-src="http://eggnogg:8000/{{$ctrl.data.avatar_path}}" alt="avatar img" class="avatar-list">
+              <h2>{{ post.name }}</h2>
+              <p>{{ post.username }}</p>
+              <i class="icon {{ post.icon }}"></i>
+              <ion-option-button class="button-energized" ng-click="$ctrl.playback(post)">VIEW</ion-option-button>
+              <div ng-if="post.showMedia">
+                <video ng-src="{{$ctrl.returnPath(post)}}" class="centerme fullscreenModal fullscreen-player" controls="controls" autoplay></video>
+              </div>
+            </ion-item>
+          </ion-list>
+        </ion-item>
       </ion-list>
     </ion-list>
   </ion-content>

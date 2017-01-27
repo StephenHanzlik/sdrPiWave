@@ -37,6 +37,16 @@ angular.module('app.controllers', ['ionic'])
       vm.playback = playback;
       vm.returnPath = returnPath;
 
+      function playback(post) {
+        post.showMedia = true;
+        vm.watchPost = "http://eggnogg:8000/uploads/" + post.file_name;
+      }
+
+      function returnPath(post) {
+        vm.watchPost = "http://eggnogg:8000/uploads/" + post.file_name;
+        return vm.watchPost;
+      }
+
       function onInit() {
         filesService.getFiles()
           .then((res) => {
@@ -60,6 +70,16 @@ angular.module('app.controllers', ['ionic'])
               });
           });
       }
+    }
+  ])
+  .controller('searchCtrl', ['$scope', '$stateParams', 'filesService', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+    // You can include any angular dependencies as parameters for this function
+    // TIP: Access Route Parameters for your page via $stateParams.parameterName
+    function ($scope, $stateParams, filesService, $http) {
+      const vm = this;
+      vm.$onInit = onInit;
+      vm.playback = playback;
+      vm.returnPath = returnPath;
 
       function playback(post) {
         post.showMedia = true;
@@ -70,14 +90,6 @@ angular.module('app.controllers', ['ionic'])
         vm.watchPost = "http://eggnogg:8000/uploads/" + post.file_name;
         return vm.watchPost;
       }
-    }
-  ])
-  .controller('searchCtrl', ['$scope', '$stateParams', 'filesService', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-    // You can include any angular dependencies as parameters for this function
-    // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function ($scope, $stateParams, filesService, $http) {
-      const vm = this;
-      vm.$onInit = onInit;
 
       function onInit() {
         if (filesService.files) {
@@ -133,8 +145,20 @@ angular.module('app.controllers', ['ionic'])
     // TIP: Access Route Parameters for your page via $stateParams.parameterName
     function ($scope, $stateParams, $http, filesService) {
       const vm = this;
-      vm.$onInit = onInit;
       vm.profileFilter = localStorage.getItem("username");
+      vm.$onInit = onInit;
+      vm.playback = playback;
+      vm.returnPath = returnPath;
+
+      function playback(post) {
+        post.showMedia = true;
+        vm.watchPost = "http://eggnogg:8000/uploads/" + post.file_name;
+      }
+
+      function returnPath(post) {
+        vm.watchPost = "http://eggnogg:8000/uploads/" + post.file_name;
+        return vm.watchPost;
+      }
 
       function onInit() {
         var userId = localStorage.getItem("userId");
