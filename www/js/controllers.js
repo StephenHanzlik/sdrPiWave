@@ -10,20 +10,18 @@ angular.module('app.controllers', ['ionic'])
 
       vm.logout=logout;
       vm.login=login;
-      vm.$onInit=onInit;
-
-      function onInit() {
-        vm.loginStatus=userService.loggedIn;
-      }
+      vm.loginStatus = userService.loggedIn;
 
       function logout() {
         userService.logout();
+        vm.loginStatus=false;
         $ionicSideMenuDelegate.toggleLeft(false);
         return $state.go('landing');
       }
 
       function login() {
         $ionicSideMenuDelegate.toggleLeft(false);
+        // vm.loginStatus=true;
         return $state.go('login');
       }
 
