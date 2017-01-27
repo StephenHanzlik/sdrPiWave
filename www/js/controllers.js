@@ -18,6 +18,7 @@ angular.module('app.controllers', ['ionic'])
       vm.$onInit = onInit;
       vm.playback = playback;
       vm.returnPath = returnPath;
+
       function onInit() {
         filesService.getFiles()
           .then((res) => {
@@ -27,11 +28,11 @@ angular.module('app.controllers', ['ionic'])
 
       function playback(post) {
         post.showMedia = true;
-        vm.watchPost = "http://eggnogg:8000/" + post.category;
+        vm.watchPost = "http://eggnogg:8000/uploads/" + post.file_name;
       }
 
       function returnPath(post) {
-        vm.watchPost = "http://eggnogg:8000/" + post.category;
+        vm.watchPost = "http://eggnogg:8000/uploads/" + post.file_name;
         return vm.watchPost;
       }
     }
