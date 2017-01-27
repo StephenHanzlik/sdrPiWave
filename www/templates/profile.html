@@ -2,12 +2,11 @@
   <ion-content padding="true" class="has-header">
     <ion-list id="profile-list5">
       <ion-item class="item-avatar" id="profile-list-item3">
+        <img src="http://eggnogg:8000/{{$ctrl.data.avatar_path}}" alt="avatar">
         <h2 ng-model="profileUploads">{{ $ctrl.data.username }}</h2>
         <p>{{ $ctrl.data.email }}</p>
-        <img src="{{$ctrl.data.avatar_path}}" alt="avatar">
       </ion-item>
-      <ion-item class="item-icon-left" id="profile-list-item4">
-        <i class="icon ion-information-circled"></i>
+      <ion-item id="profile-list-item4">
         <h2>Surfing the PiWave since</h2>
         <p>{{ $ctrl.data.created_at | date : format : timezone }}</p>
       </ion-item>
@@ -31,6 +30,7 @@
         <ion-item>
         <ion-list id="profile">
           <ion-item class="item-thumbnail-left item-icon-right" id="profile-list" ng-repeat="post in $ctrl.uploadData | filter:{username: $ctrl.profileFilter}">
+            <img src="../img/owl-1.svg" alt="avatar img">
             <h2>{{ post.name }}</h2>
             <p>{{ post.username }}</p>
             <i class="icon {{ post.icon }}"></i>

@@ -178,6 +178,7 @@ angular.module('app.services', [])
       return $http.get("http://eggnogg:8000/uploads/")
         .success(function (uploads) {
           service.files = parseIcons(uploads);
+          console.log('files:', service.files);
           return service.files;
         })
         .error(function (data) {
