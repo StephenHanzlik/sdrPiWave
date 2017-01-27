@@ -18,7 +18,6 @@ angular.module('app.controllers', ['ionic'])
       vm.$onInit = onInit;
       vm.playback = playback;
       vm.returnPath = returnPath;
-
       function onInit() {
         filesService.getFiles()
           .then((res) => {
