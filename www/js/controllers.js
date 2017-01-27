@@ -167,7 +167,7 @@ angular.module('app.controllers', ['ionic'])
       vm.toggleModal = toggleModal;
       vm.testNetwork = testNetwork;
       vm.buttonMessage = "Try Again";
-      vm.wifiName = "EGGNOGG";
+      vm.wifiName = " PiOS Media Server";
       vm.showModal = true;
 
       function testNetwork() {
